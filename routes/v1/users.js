@@ -14,17 +14,6 @@ router.post("/", (req, res) => {
   }); 
 });
 
-// Get all users
-router.get("/", (req, res) => {
-  let sql = "select * from users;"
-
-  db.query(sql, (err, data) => {
-    if (err) throw err;
-
-    res.json({ users: data });
-  });
-});
-
 // User Query
 router.get("/", (req, res) => {
   let sql = "select * from users where email=?;";
@@ -33,6 +22,17 @@ router.get("/", (req, res) => {
     if (err) console.log(err);
 
     res.json({ user: data[0] });
+  });
+});
+
+// Get all users
+router.get("/", (req, res) => {
+  let sql = "select * from users;"
+
+  db.query(sql, (err, data) => {
+    if (err) throw err;
+
+    res.json({ users: data });
   });
 });
 
