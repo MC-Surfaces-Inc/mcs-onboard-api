@@ -16,7 +16,7 @@ router.post("/", (req, res) => {
   db.query(sql, [ req.body ], (err, data) => {
     if (err) throw err;
 
-    res.json({ message: "Client Successfully Created.", ...data });
+    res.json({ message: "Client Successfully Created.", data: data });
   });
 });
 
