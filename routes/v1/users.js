@@ -26,10 +26,10 @@ router.get("/", (req, res) => {
 });
 
 // User Query
-router.get("/:id", (req, res) => {
+router.get("/:email", (req, res) => {
   let sql = "select * from users where id=?;";
 
-  db.query(sql, [ query ], (err, data) => {
+  db.query(sql, [ req.params.email ], (err, data) => {
     if (err) console.log(err);
 
     res.json({ user: data[0] });
