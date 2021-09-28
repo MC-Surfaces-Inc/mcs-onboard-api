@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
 });
 
 // User Query
-router.get("/:email", (req, res) => {
+router.get("/", (req, res) => {
   let sql = "select * from users where email=?;";
 
   db.query(sql, [ req.query.email ], (err, data) => {
