@@ -16,9 +16,12 @@ router.post("/", (req, res) => {
 
 // User Query
 router.get("/", (req, res) => {
-  let sql = "select * from users where email=?;";
+  let sql = "select * from users where auth0Sub=?;";
+  // if (req.query.sub === null) {
+  //   continue();
+  // }
 
-  db.query(sql, [ req.query.email ], (err, data) => {
+  db.query(sql, [ req.query.sub ], (err, data) => {
     if (err) console.log(err);
 
     res.json({ user: data[0] });
