@@ -4,8 +4,8 @@ var router = express.Router({ mergeParams: true });
 var db = require("../../db");
 
 router.post("/", (req, res) => {
-  let sql = "insert into addresses(clientId, type, address1, address2, city, state, zip) values ?;";
-
+  let sql = "insert into addresses(address1, address2, clientId, city, state, type, zip) values ?;";
+  console.log(req.body)
   db.query(sql, [ req.body ], (err, data) => {
     if (err) throw err;
 
