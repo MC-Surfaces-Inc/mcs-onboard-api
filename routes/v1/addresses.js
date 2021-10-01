@@ -6,11 +6,11 @@ var db = require("../../db");
 router.post("/", (req, res) => {
   let sql = "insert into addresses(address1, address2, clientId, city, state, type, zip) values ?;";
   console.log(req.body)
-  db.query(sql, [ req.body ], (err, data) => {
-    if (err) throw err;
+  // db.query(sql, [ req.body ], (err, data) => {
+  //   if (err) throw err;
 
-    res.json({ message: "Address Successfully Created." });
-  });
+  //   res.json({ message: "Address Successfully Created." });
+  // });
 });
 
 router.get("/", (req, res) => {
