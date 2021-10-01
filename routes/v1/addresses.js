@@ -6,7 +6,7 @@ var db = require("../../db");
 router.post("/", (req, res) => {
   let sql = "insert into addresses(clientId, type, address1, address2, city, state, zip) values ?;";
 
-  db.query(sql, [ req.body, req.body ], (err, data) => {
+  db.query(sql, req.body, (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Address Successfully Created." });
