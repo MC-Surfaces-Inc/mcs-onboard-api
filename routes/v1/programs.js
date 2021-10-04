@@ -37,7 +37,7 @@ router.get("/info", (req, res) => {
 
 router.post("/info", (req, res) => {
   let program = mysql.raw(req.query.programName);
-  let sql = `insert into program_details_? set ? on duplicate key update set ?;`;
+  let sql = `insert into program_details_? set ? on duplicate key update ?;`;
 
   db.query(sql, [ program, req.body, req.body ], (err, data) => {
     if (err) throw err;
