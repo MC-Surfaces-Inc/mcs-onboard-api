@@ -35,4 +35,15 @@ router.get("/info", (req, res) => {
   });
 });
 
+router.post("/info", (req, res) => {
+  let program = mysql.raw(req.query.programName);
+  let sql = `update program_details_? set ? where clientId=? on duplicate key update ?;`;
+
+  db.query(sql, [ program, req.body, req.query.clientId, req.body ], (err, data) => {
+    if (err) throw err;
+
+    res.json({ message: "Client Program Specs. Update Successfully." });
+  });
+});
+
 module.exports = router;
