@@ -26,9 +26,9 @@ router.get("/", (req, res) => {
 
 router.get("/info", (req, res) => {
   let program = mysql.raw(req.query.programName);
-  let sql = `select * from program_details_${program} where clientId=?;`;
+  let sql = `select * from program_details_? where clientId=?;`;
 
-  db.query(sql, [ req.query.clientId ], (err, data) => {
+  db.query(sql, [ program, req.query.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ data: data[0] });
