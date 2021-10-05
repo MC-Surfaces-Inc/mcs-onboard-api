@@ -34,7 +34,7 @@ router.get("/:id", (req, res) => {
 });
 
 router.put("/:id", (req, res) => {
-  let sql = "insert into addresses set ? on duplicate key update set ?;";
+  let sql = "insert into addresses set ? on duplicate key update ?;";
 
   db.query(sql, [ req.body, req.body ], (err, data) => {
     if (err) throw err;
