@@ -5,13 +5,13 @@ var usersRouter = require("./users");
 var clientsRouter = require("./clients");
 var detailsRouter = require("./details");
 var programsRouter = require("./programs");
-var partsRouter = require("./parts");
+var pricingRouter = require("./pricing");
 
 router.use("/users", usersRouter);
 router.use("/clients", clientsRouter);
 router.use("/details", detailsRouter);
 router.use("/programs", programsRouter);
-router.use("/parts", partsRouter);
+router.use("/pricing", pricingRouter);
 
 /* GET home page. */
 router.get("/", function(req, res, next) {
