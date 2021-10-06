@@ -21,9 +21,7 @@ router.get("/countertop_options", (req, res) => {
   db.query(sql.concat(sql2), (err, data) => {
     if (err) throw err;
 
-    console.log(data[0])
-
-    res.json({ countertopChoices: data });
+    res.json({ types: data[0], colors: data[1] });
   });
 })
 
