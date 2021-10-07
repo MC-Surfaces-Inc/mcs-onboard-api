@@ -23,6 +23,26 @@ router.get("/countertop_options", (req, res) => {
 
     res.json({ types: data[0], colors: data[1] });
   });
-})
+});
+
+router.get("/parts", (req, res) => {
+  let sql = "select * from billing_parts where clientId=?;";
+
+  db.query(sql, [ req.query.id ], (err, data) => {
+    if (err) throw err;
+
+    res.json({ parts: data });
+  });
+});
+
+router.post("/parts", (req, res) => {
+  let sql = "insert into billing_parts set ? on duplicate key update ?;";
+
+  db.query(sql, [ req.body, req.body ], (err, data) => {
+    if (err) throw err;
+
+    res.json({ message: "Client Billing Parts Successfully Created." });
+  })
+});
 
 module.exports = router;
