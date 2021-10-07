@@ -28,7 +28,7 @@ router.get("/countertop_options", (req, res) => {
 router.get("/parts", (req, res) => {
   let sql = "select * from billing_parts where clientId=?;";
 
-  db.query(sql, [ req.query.id ], (err, data) => {
+  db.query(sql, [ req.query.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ parts: data });
