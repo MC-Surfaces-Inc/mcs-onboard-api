@@ -56,7 +56,7 @@ router.put("/:id", (req, res) => {
 });
 
 router.get("/:id/sage-create", (req, res) => {
-  let sql = "select * from clients join users on clients.userId=users.id where clientId=?;";
+  let sql = "select * from clients join users on clients.userId=users.id where id=?;";
   let sql2 = "select * from addresses where clientId=?;";
   let sql3 = "select * from contacts where clientId=?;";
   let sql4 = "select * billing_parts where clientId=?;";
