@@ -66,7 +66,9 @@ router.get("/:id/sage-create", (req, res) => {
   db.query(sql.concat(sql2, sql3, sql4), sqlParams, (err, data) => {
     if (err) throw err;
 
-    res.json({ data: data });
+    console.log(data);
+
+    res.json({ data: "Successfully Pushed to Sage." });
   })
 });
 
