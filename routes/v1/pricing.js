@@ -45,4 +45,14 @@ router.post("/parts", (req, res) => {
   })
 });
 
+router.delete("/parts/:id", (req, res) => {
+  let sql = "delete from billing_parts where id=?;";
+
+  db.query(sql, [ req.params.id ], (err, data) => {
+    if (err) throw err;
+
+    res.json({ message: "Billing Part successfully deleted." });
+  });
+})
+
 module.exports = router;
