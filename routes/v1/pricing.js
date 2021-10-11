@@ -53,6 +53,16 @@ router.delete("/parts/:id", (req, res) => {
 
     res.json({ message: "Billing Part successfully deleted." });
   });
-})
+});
+
+router.get("/in-house", (req, res) => {
+  let sql = "select * from in_house_program;";
+
+  db.query(sql, (err, data) => {
+    if (err) throw err;
+
+    res.json({ parts: data });
+  });
+});
 
 module.exports = router;
