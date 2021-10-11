@@ -68,7 +68,7 @@ router.get("/:id/sage-create", (req, res) => {
 
     console.log(data);
 
-    res.json({ data: "Successfully Pushed to Sage." });
+    res.json({ data: "Successfully Pushed to Sage.", status: 200 });
   })
 });
 
