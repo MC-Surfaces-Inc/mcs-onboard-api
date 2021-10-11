@@ -55,4 +55,19 @@ router.put("/:id", (req, res) => {
   });
 });
 
+router.get("/:id/sage-create", (req, res) => {
+  let sql = "select * from clients join users on clients.userId=users.id where clientId=?;";
+  let sql2 = "select * from addresses where clientId=?;";
+  let sql3 = "select * from contacts where clientId=?;";
+  let sql4 = "select * billing_parts where clientId=?;";
+
+  let sqlParams = [ req.params.id, req.params.id, req.params.id, req.params.id ];
+
+  db.query(sql.concat(sql2, sql3, sql4), sqlParams, (err, data) => {
+    if (err) throw err;
+
+    res.json({ data: data });
+  })
+});
+
 module.exports = router;
