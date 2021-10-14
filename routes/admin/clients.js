@@ -11,7 +11,7 @@ var db = require("../../db");
 // router.use("/:clientId/files", require("./files"));
 
 router.get("/", (req, res) => {
-  let sql = "select * from clients inner join users on clients.id=users.id;";
+  let sql = "select * from clients inner join users on clients.id=users.id inner join status on status.clientId=users.id;";
 
   db.query(sql, (err, data) => {
     if (err) throw err;
