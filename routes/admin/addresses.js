@@ -7,7 +7,7 @@ var db = require("../../db");
 router.get("/", (req, res) => {
   let sql = "select *, concat_ws(' ', address1, address2) from addresses where clientId=?;";
 
-  db.query(sql, [ req.param.clientId ], (err, data) => {
+  db.query(sql, [ req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ addresses: data });

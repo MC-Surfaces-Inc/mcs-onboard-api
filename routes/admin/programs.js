@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
   let sql4 = "select * from program_details_tile where clientId=?;";
   let sql5 = "select * from program_details_wood_vinyl where clientId=?;";
 
-  db.query(sql.concat(sql2, sql3, sql4, sql5), [ req.param.id, req.param.id, req.param.id, req.param.id, req.param.id ], (err, data) => {
+  db.query(sql.concat(sql2, sql3, sql4, sql5), [ req.params.clientId, req.params.clientId, req.params.clientId, req.params.clientId, req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ programs: data });
