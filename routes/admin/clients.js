@@ -4,11 +4,11 @@ var mysql = require("mysql");
 
 var db = require("../../db");
 
-// router.use("/:clientId/contacts", require("./contacts"));
-// router.use("/:clientId/addresses", require("./addresses"));
-// router.use("/:clientId/approvals", require("./approvals"));
-// router.use("/:clientId/status", require("./status"));
-// router.use("/:clientId/files", require("./files"));
+router.use("/:clientId/contacts", require("./contacts"));
+router.use("/:clientId/addresses", require("./addresses"));
+router.use("/:clientId/details", require("./details"));
+router.use("/:clientId/pricing", require("./pricing"));
+router.use("/:clientId/programs", require("./programs"));
 
 router.get("/", (req, res) => {
   let sql = "select * from clients inner join users on clients.id=users.id inner join status on status.clientId=users.id;";
@@ -17,7 +17,7 @@ router.get("/", (req, res) => {
     if (err) throw err;
 
     res.json({ clients: data });
-  })
+  });
 });
 
 module.exports = router;
