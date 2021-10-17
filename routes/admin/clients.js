@@ -20,4 +20,14 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/:id", (req, res) => {
+  let sql = "select * from clients where id=?;";
+
+  db.query(sql, (err, data) => {
+    if (err) throw err;
+
+    res.json({ client: data });
+  });
+});
+
 module.exports = router;
