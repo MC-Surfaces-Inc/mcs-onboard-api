@@ -11,7 +11,7 @@ router.get("/", (req, res) => {
   db.query(sql.concat(sql2), [ req.params.clientId, req.params.clientId ], (err, data) => {
     if (err) throw err;
 
-    res.json({ details: data });
+    res.json({ accountingDetails: data[0], expeditingDetails: data[1] });
   });
 });
 
