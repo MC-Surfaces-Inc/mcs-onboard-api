@@ -18,6 +18,6 @@ var prodDatabase = {
   multipleStatements: true
 };
 
-var dbConnection = mysql.createPool(devDatabase);
+var dbConnection = mysql.createPool(prodDatabase);
 
 module.exports = dbConnection;
