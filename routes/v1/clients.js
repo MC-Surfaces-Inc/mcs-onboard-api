@@ -180,7 +180,7 @@ router.get("/:id/sage-create", async(req, res) => {
 
     axios.post(oktaDomain, "grant_type=client_credentials&scope=OnBoard", { headers: headers })
       .then((response) => {
-        let token = response?.data?.access_token;
+        let token = response.data.access_token;
         axios.get(`${mcsDomainAPI}/api/Client/137`, { headers: { 'authorization': `Bearer ${token}`}})
           .then((response) => {
             console.log(response)
