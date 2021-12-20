@@ -21,11 +21,11 @@ app.set("port", port);
  * Create HTTP server.
  */
 
-// var server = http.createServer(app);
-var server = https.createServer({
-  key: fs.readFileSync('../certificates/onboard.mcsurfacesinc.com.key'),
-  cert: fs.readFileSync('../certificates/onboard.mcsurfacesinc.com.crt')
-}, app);
+var server = http.createServer(app);
+// var server = https.createServer({
+//   key: fs.readFileSync('../certificates/onboard.mcsurfacesinc.com.key'),
+//   cert: fs.readFileSync('../certificates/onboard.mcsurfacesinc.com.crt')
+// }, app);
 
 /**
  * Listen on provided port, on all network interfaces.
