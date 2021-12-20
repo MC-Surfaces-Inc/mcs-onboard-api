@@ -23,8 +23,8 @@ app.set("port", port);
 
 // var server = http.createServer(app);
 var server = https.createServer({
-  key: fs.readFileSync('opt/bitnami/letsencrypt/certificates/onboard.mcsurfacesinc.com.key'),
-  cert: fs.readFileSync('opt/bitnami/letsencrypt/certificates/onboard.mcsurfacesinc.com.crt')
+  key: fs.readFileSync('../certificates/onboard.mcsurfacesinc.com.key'),
+  cert: fs.readFileSync('../certificates/onboard.mcsurfacesinc.com.crt')
 }, app);
 
 /**
