@@ -1,6 +1,6 @@
-var mysql = require("mysql");
+const mysql = require("mysql");
 
-var devDatabase = {
+const devDatabase = {
   connectionLimit: 20,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -9,7 +9,7 @@ var devDatabase = {
   multipleStatements: true
 };
 
-var prodDatabase = {
+const prodDatabase = {
   connectionLimit: 20,
   host: process.env.DB_HOST,
   user: process.env.DB_USER,
@@ -18,6 +18,6 @@ var prodDatabase = {
   multipleStatements: true
 };
 
-var dbConnection = mysql.createPool(prodDatabase);
+const dbConnection = mysql.createPool(prodDatabase);
 
 module.exports = dbConnection;

@@ -1,7 +1,7 @@
-var express = require("express");
-var router = express.Router({ mergeParams: true });
+const express = require("express");
+const router = express.Router({ mergeParams: true });
 
-var db = require("../../db");
+const db = require("../../db");
 
 router.put("/", (req, res) => {
   let sql = "update approvals set ? where clientId=?;";

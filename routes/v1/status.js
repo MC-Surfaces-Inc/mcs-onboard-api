@@ -1,12 +1,9 @@
-var express = require("express");
-var router = express.Router({ mergeParams: true });
-var mysql = require("mysql");
-var db = require("../../db");
+const express = require("express");
+const router = express.Router({ mergeParams: true });
+const mysql = require("mysql");
+const db = require("../../db");
 
 router.put("/", (req, res) => {
-  const payload = {
-    channel: "onboard"
-  }
   let sql = "update status set ? where clientId=?;";
 
   if (req.body.status === "Pushed") {

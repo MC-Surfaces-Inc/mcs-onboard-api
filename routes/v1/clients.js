@@ -64,9 +64,34 @@ router.get("/:id/sage-create", async (req, res) => {
   let sql = "select * from clients join users on clients.userId=users.id where clients.id=?;";
   let sql2 = "select * from addresses where clientId=?;";
   let sql3 = "select * from contacts where clientId=?;";
-  let sql4 = "select * from billing_parts where clientId=?;";
-  let sql5 = "select * from programs where clientId=?;";
-  let sqlParams = [ req.params.id, req.params.id, req.params.id, req.params.id, req.params.id ];
+  let sql4 = "select * from programs where clientId=?;";
+  let carpetSQL = `select CONCAT_WS(" ", c.name, programTable, concat("Level ", level), description) as Description, program, unit as Unit, totalCost as BillingAmount
+      from billing_parts
+        join clients c on billing_parts.clientId = c.id
+      where clientId=? and program="Carpet";
+    `;
+  let countertopsSQL = `select CONCAT_WS(" ", c.name, program, programTable, type, description) as Description, program, unit as Unit, totalCost as BillingAmount
+      from billing_parts
+        join clients c on c.id = billing_parts.clientId
+      where clientId=? and program="Countertops";
+     `;
+  let tileSQL = `select CONCAT_WS(" ", c.name, programTable, CONCAT("T", level), description) as Description, program, unit as Unit, totalCost as BillingAmount
+      from billing_parts
+        join clients c on c.id = billing_parts.clientId
+      where clientId=? and program="Tile";
+    `;
+  let lvpSQL = `select CONCAT_WS(" ", c.name, programTable, CONCAT("Level ", level), description) as Description, program, unit as Unit, totalCost as BillingAmount
+      from billing_parts
+        join clients c on c.id = billing_parts.clientId
+      where clientId=? and program="LVP";
+    `;
+  let woodSQL = `select CONCAT_WS(" ", c.name, programTable, CONCAT("Level ", level), description) as Description, program, unit as Unit, totalCost as BillingAmount
+      from billing_parts
+        join clients c on c.id = billing_parts.clientId
+      where clientId=? and program="Wood";
+    `;
+
+  let sqlParams = Array(10).fill(req.params.id, 0, 10);
   let responses = [];
 
   // Retrieve Valid Token from Okta to call 
@@ -80,6 +105,7 @@ router.get("/:id/sage-create", async (req, res) => {
       'content-type': "application/x-www-form-urlencoded"
     };
 
+    // Get Access Token From Okta to call
     let token;
     await axios.post(oktaDomain, "grant_type=client_credentials&scope=OnBoard", { headers: headers })
       .then((response) => {
@@ -92,15 +118,16 @@ router.get("/:id/sage-create", async (req, res) => {
     return token;
   }
 
-  db.query(sql.concat(sql2, sql3, sql4, sql5), sqlParams, async (err, data) => {
+  // Query Application DB for Client Data
+  db.query(sql.concat(sql2, sql3, sql4, carpetSQL, countertopsSQL, tileSQL, lvpSQL, woodSQL), sqlParams, async (err, data) => {
     if (err) throw err;
 
     let client = {
       info: data[0][0],
       addresses: data[1],
       contacts: data[2],
-      billingParts: data[3],
-      programs: data[4][0]
+      programs: data[3][0],
+      billingParts: data[4].concat(data[5], data[6], data[7], data[8])
     };
 
     let corpAddr = client.addresses.filter(address => address.type === "Corporate");
@@ -109,7 +136,7 @@ router.get("/:id/sage-create", async (req, res) => {
 
     let sageClient = {
       info: {
-        ShortName: client.info.shortName,
+        ShortName: client.info.name,
         Name: client.info.name,
         Addr1: corpAddr[0].address1,
         Addr2: corpAddr[0].address2,
@@ -131,7 +158,7 @@ router.get("/:id/sage-create", async (req, res) => {
         ClientTypeRef: 1,
         ClientStatusRef: 1
       },
-      billingParts: [],
+      billingParts: client.billingParts,
       contacts: client.contacts.map(contact => {
         return {
           ContactName: contact.name,
@@ -141,7 +168,7 @@ router.get("/:id/sage-create", async (req, res) => {
         }
       }),
     };
-    
+
     let token = await getValidToken( );
     headers = {
       'Authorization': 'Bearer ' + token,
@@ -155,7 +182,7 @@ router.get("/:id/sage-create", async (req, res) => {
       .catch((error) => {
         console.error(error);
       });
-    
+
     // Get Next Available Part Classes per Program
     let partClasses;
     let partClassAttrs;
@@ -167,13 +194,13 @@ router.get("/:id/sage-create", async (req, res) => {
         let sageResponseJSON = parser.parse(response.data);
         partClasses = _.get(sageResponseJSON, "api:MBXML.MBXMLMsgsRs.SQLRunRs.xml.rs:data.rs:insert.z:row");
         partClassAttrs = _.get(sageResponseJSON, "api:MBXML.MBXMLMsgsRs.SQLRunRs.xml.s:Schema.s:ElementType.s:AttributeType");
-        
+
         responses.push(response.status)
       })
       .catch((error) => {
         console.error(error);
       });
-    
+
     let lastTileProgram = _.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 200 && partClass["@_ObjectID"] < 1000));
     let lastGraniteProgram = _.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 1001 && partClass["@_ObjectID"] < 1099));
     let lastWoodProgram = _.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 4001 && partClass["@_ObjectID"] < 4100));
@@ -186,7 +213,7 @@ router.get("/:id/sage-create", async (req, res) => {
 
     // Create Part Classes (multiple calls, one per program)
     await Object.keys(client.programs).forEach(async (program) => {
-      if (programs[program] === 0 || program === "clientId") {
+      if (client.programs[program] === 0 || program === "clientId" || program === "cabinets" || program === "vinyl") {
         return;
       }
 
@@ -206,7 +233,7 @@ router.get("/:id/sage-create", async (req, res) => {
         countertopPartClass = newPartClass;
       }
 
-      if (program === "wood" || program === "vinyl") {
+      if (program === "wood") {
         newPartClass = parseInt(lastWoodProgram["@_ObjectID"]) + 1;
         woodPartClass = newPartClass;
       }
@@ -228,88 +255,34 @@ router.get("/:id/sage-create", async (req, res) => {
         });
     });
 
-
-    client.billingParts.forEach(row => {
-      if (row.program === "Carpet") {
-        if (row.programTable === "Miscellaneous" || row.programTable === "Carpet Pad") {
-          sageClient.billingParts.push({
-            Desc: `${client.info.name} ${row.program} - ${row.programTable} - ${row.description}`,
-            Unit: row.unit || "SqFt",
-            PartClassRef: carpetPartClass,
-            BillingAmount: row.totalCost,
-          });
-
-          return;
-        }
-
-        sageClient.billingParts.push({
-          Desc: `${client.info.name} ${row.programTable} Level ${row.level}`,
-          Unit: row.unit || "SqFt",
-          PartClassRef: carpetPartClass,
-          BillingAmount: row.totalCost,
-        });
+    // Add Part Class to Parts
+    client.billingParts.forEach(part => {
+      if (part.program === 'Tile') {
+        part.PartClassRef = tilePartClass;
+        part.Desc = part.Description;
+        delete part.Description;
+        delete part.program;
       }
 
-      if (row.program === "Wood" || row.program === "LVP") {
-        if (row.programTable === "Miscellaneous") {
-          sageClient.billingParts.push({
-            Desc: `${client.info.name} ${row.program} - ${row.programTable} - ${row.description}`,
-            Unit: row.unit || "SqFt",
-            PartClassRef: woodPartClass,
-            BillingAmount: row.totalCost,
-          });
-
-          return;
-        }
-
-        sageClient.billingParts.push({
-          Desc: `${client.info.name} ${row.programTable} Level ${row.level}`,
-          Unit: row.unit || "SqFt",
-          PartClassRef: woodPartClass,
-          BillingAmount: row.totalCost,
-        });
+      if (part.program === 'Carpet') {
+        part.PartClassRef = carpetPartClass;
+        part.Desc = part.Description;
+        delete part.Description;
+        delete part.program;
       }
 
-      // COUNTERTOPS
-      if (row.program === "Countertops") {
-        if (row.programTable === "Edges" || row.programTable === "Sinks" || row.programTable === "Miscellaneous") {
-          sageClient.billingParts.push({
-            Desc: `${client.info.name} ${row.program} - ${row.programTable} - ${row.description || row.type}`,
-            Unit: row.unit || "SqFt",
-            PartClassRef: countertopPartClass,
-            BillingAmount: row.totalCost
-          });
-
-          return; 
-        }
-
-        sageClient.billingParts.push({
-          Desc: `${client.info.name} ${row.program} - ${row.programTable} ${row.type}`,
-          Unit: row.unit || "SqFt",
-          PartClassRef: countertopPartClass,
-          BillingAmount: row.totalCost
-        });
+      if (part.program === 'Countertops') {
+        part.PartClassRef = countertopPartClass;
+        part.Desc = part.Description;
+        delete part.Description;
+        delete part.program;
       }
 
-      // TILE PART CLASS  
-      if (row.program === "Tile") {
-        if (row.programTable === "Patterns" || row.programTable === "Accents" || row.programTable === "Bath Accessories" || row.programTable === "Miscellaneous") {
-          sageClient.billingParts.push({
-            Desc: `${client.info.name} ${row.program} - ${row.programTable} - ${row.description}`,
-            Unit: row.unit || "SqFt",
-            PartClassRef: tilePartClass,
-            BillingAmount: row.totalCost
-          });
-
-          return;
-        }
-
-        sageClient.billingParts.push({
-          Desc: `${client.info.name} ${row.program} - ${row.programTable} Level ${row.level}`,
-          Unit: row.unit || "SqFt",
-          PartClassRef: tilePartClass,
-          BillingAmount: row.totalCost
-        });
+      if (part.program === 'Wood' || part.program === 'LVP') {
+        part.PartClassRef = woodPartClass;
+        part.Desc = part.Description;
+        delete part.Description;
+        delete part.program;
       }
     });
 

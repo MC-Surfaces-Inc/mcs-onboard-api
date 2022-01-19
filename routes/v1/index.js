@@ -1,11 +1,11 @@
-var express = require("express");
-var router = express.Router();
+const express = require("express");
+const router = express.Router();
 
-var usersRouter = require("./users");
-var clientsRouter = require("./clients");
-var detailsRouter = require("./details");
-var programsRouter = require("./programs");
-var pricingRouter = require("./pricing");
+const usersRouter = require("./users");
+const clientsRouter = require("./clients");
+const detailsRouter = require("./details");
+const programsRouter = require("./programs");
+const pricingRouter = require("./pricing");
 
 router.use("/users", usersRouter);
 router.use("/clients", clientsRouter);
@@ -14,8 +14,13 @@ router.use("/programs", programsRouter);
 router.use("/pricing", pricingRouter);
 
 /* GET home page. */
-router.get("/", function(req, res, next) {
-  res.render("index", { title: "Express" });
+router.get("/", async function(req, res, next) {
+  const { sendSlackMessage } = require("../common/SlackMessages/slack");
+  const slackMessageResult = await sendSlackMessage("This is a test message. Please ignore.");
+
+  res.send(slackMessageResult);
+
+  // res.render("index", { title: "Express" });
 });
 
 module.exports = router;
