@@ -22,16 +22,16 @@ app.use(express.static(path.join(__dirname, "public")));
 app.use(cors({ origin: "*" }));
 
 // Scheduled job to poll database and send Slack notifications
-cron.schedule('* * * * *', ( ) => {
-   let sql = "select * from status join clients c on c.id = status.clientId;";
-
-   db.query(sql, (err, data) => {
-      let queuedClients = data.filter(client => client.status === "Queued");
-      let declinedClients = data.filter(client => client.status === "Declined");
-      let approvedClients = data.filter(client => client.status === "Approved");
-      let pushedClients = data.filter(client => client.status === "Pushed");
-   });
-});
+// cron.schedule('* * * * *', ( ) => {
+//    let sql = "select * from status join clients c on c.id = status.clientId;";
+//
+//    db.query(sql, (err, data) => {
+//       let queuedClients = data.filter(client => client.status === "Queued");
+//       let declinedClients = data.filter(client => client.status === "Declined");
+//       let approvedClients = data.filter(client => client.status === "Approved");
+//       let pushedClients = data.filter(client => client.status === "Pushed");
+//    });
+// });
 
 app.use("/v1", indexRouter);
 app.use("/admin", adminRouter);
