@@ -22,7 +22,9 @@ router.get("/", async function(req, res, next) {
   //
   // res.send(slackMessageResult);
 
-  res.render("index", { title: "Express" });
+  // res.render("index", { title: "Express" });
+
+  res.send({ message: "HELLO" });
 });
 
 module.exports = router;
