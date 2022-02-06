@@ -5,7 +5,7 @@ var mysql = require("mysql");
 var db = require("../../db");
 
 router.get("/:id", (req, res) => {
-  let sql = "select * from clients where id=?;";
+  let sql = "select * from clients where clientId=?;";
 
   db.query(sql, [ req.query.id], (err, data) => {
     if (err) throw err;
