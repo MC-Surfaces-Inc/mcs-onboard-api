@@ -7,7 +7,7 @@ var db = require("../../db");
 router.get("/:id", (req, res) => {
   let sql = "select * from clients where id=?;";
 
-  db.query(sql, (err, data) => {
+  db.query(sql, [ req.query.id], (err, data) => {
     if (err) throw err;
 
     res.json({ client: data });
