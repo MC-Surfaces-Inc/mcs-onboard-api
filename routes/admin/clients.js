@@ -4,6 +4,16 @@ var mysql = require("mysql");
 
 var db = require("../../db");
 
+router.get("/:id", (req, res) => {
+  let sql = "select * from clients where id=?;";
+
+  db.query(sql, (err, data) => {
+    if (err) throw err;
+
+    res.json({ client: data });
+  });
+});
+
 router.get("/", (req, res) => {
   let sql = `
   select 
@@ -16,16 +26,6 @@ router.get("/", (req, res) => {
     if (err) throw err;
 
     res.json({ clients: data });
-  });
-});
-
-router.get("/:id", (req, res) => {
-  let sql = "select * from clients where id=?;";
-
-  db.query(sql, (err, data) => {
-    if (err) throw err;
-
-    res.json({ client: data });
   });
 });
 
