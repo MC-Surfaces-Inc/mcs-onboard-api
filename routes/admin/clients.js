@@ -1,8 +1,14 @@
 var express = require("express");
-var router = express.Router( );
+var router = express.Router({ mergeParams: true });
 var mysql = require("mysql");
 
 var db = require("../../db");
+
+router.use("/addresses", require("./addresses"));
+router.use("/contacts", require("./contacts"));
+router.use("/details", require("./contacts"));
+router.use("/pricing", require("./pricing"));
+router.use("/programs", require("./programs"));
 
 router.get("/:id", (req, res) => {
   let sql = "select * from clients where id=?;";

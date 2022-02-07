@@ -4,10 +4,10 @@ var mysql = require("mysql");
 
 var db = require("../../db");
 
-router.get("/", (req, res) => {
-  let sql = "select * from contacts;";
+router.get("/:id", (req, res) => {
+  let sql = "select * from contacts where clientId=?;";
 
-  db.query(sql, (err, data) => {
+  db.query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ contacts: data });
