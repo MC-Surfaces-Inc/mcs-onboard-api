@@ -4,7 +4,7 @@ const router = express.Router({ mergeParams: true });
 const db = require("../../db");
 
 router.get("/selections/:id", (req, res) => {
-  let sql = "select * from programs where clientId=?;";
+  let sql = "select cabinets, carpet, countertops, tile, vinyl, wood from programs where clientId=?;";
 
   db.query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;

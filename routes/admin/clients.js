@@ -35,6 +35,16 @@ router.get("/", (req, res) => {
   });
 });
 
+router.get("/status/:id", (req, res) => {
+  let sql = "select kimc, edythc, lisak from approvals where clientId=?;";
+
+  db.query(sql, [ req.params.id ], (err, data) => {
+    if (err) throw err;
+
+    res.json({ approvals: data });
+  })
+});
+
 router.put("/status", (req, res) => {
   let sql = "update approvals set ?=? where clientId=?;";
 
