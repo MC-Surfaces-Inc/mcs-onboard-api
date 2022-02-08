@@ -16,7 +16,7 @@ router.get("/:id", (req, res) => {
   db.query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
-    res.json({ client: data });
+    res.json({ info: data[0] });
   });
 });
 

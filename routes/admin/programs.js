@@ -1,8 +1,7 @@
-var express = require("express");
-var router = express.Router({ mergeParams: true });
-var mysql = require("mysql");
+const express = require("express");
+const router = express.Router({ mergeParams: true });
 
-var db = require("../../db");
+const db = require("../../db");
 
 router.get("/selections/:id", (req, res) => {
   let sql = "select * from programs where clientId=?;";
@@ -10,7 +9,7 @@ router.get("/selections/:id", (req, res) => {
   db.query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
-    res.json({ selections: data });
+    res.json({ selections: data[0] });
   });
 });
 
