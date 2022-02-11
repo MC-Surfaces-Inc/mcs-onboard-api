@@ -3,8 +3,8 @@ var router = express.Router({ mergeParams: true });
 
 var db = require("../../db");
 
-// Req .
-router.get("/", (req, res) => {
+
+router.get("/:id", (req, res) => {
   let carpetSQL = `select CONCAT_WS(" ", c.name, programTable, concat("Level ", level), description) as Description, program, unit as Unit, totalCost as BillingAmount
       from billing_parts
         join clients c on billing_parts.clientId = c.id
@@ -30,15 +30,21 @@ router.get("/", (req, res) => {
         join clients c on c.id = billing_parts.clientId
       where clientId=? and program="Wood";
     `;
-});
 
-router.get("/:id", (req, res) => {
-  let sql = "select * from billing_parts where clientId=?;";
-
-  db.query(sql, [ req.params.id ], (err, data) => {
+  let sql = carpetSQL.concat(countertopsSQL, tileSQL, lvpSQL, woodSQL);
+  let params = Array(5).fill(req.params.id);
+  db.query(sql, params, (err, data) => {
     if (err) throw err;
 
-    res.json({ parts: data });
+    res.json({
+      parts: {
+        carpet: data[0],
+        countertops: data[1],
+        tile: data[2],
+        vinyl: data[3],
+        wood: data[4]
+      }
+    })
   });
 });
 
