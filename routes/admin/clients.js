@@ -6,7 +6,7 @@ var db = require("../../db");
 
 router.use("/addresses", require("./addresses"));
 router.use("/contacts", require("./contacts"));
-router.use("/details", require("./contacts"));
+router.use("/details", require("./details"));
 router.use("/pricing", require("./pricing"));
 router.use("/programs", require("./programs"));
 
