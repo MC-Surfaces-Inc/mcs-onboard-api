@@ -48,7 +48,9 @@ router.get("/status/:id", (req, res) => {
 router.put("/status/:id", (req, res) => {
   let sql = "update approvals set ?=? where clientId=?;";
 
-  // if (req.body.user)
+  if (req.body.user !== "edythc" || req.body.user !== "kimc" || req.body.user !== "lisak") {
+    res.json({ message: "Non-Authorized User" });
+  }
 
   db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
     if (err) throw err;
