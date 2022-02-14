@@ -48,7 +48,7 @@ router.get("/status/:id", (req, res) => {
 router.put("/status/:id", (req, res) => {
   let sql = "update approvals set ?=? where clientId=?;";
 
-  if (req.body.user)
+  // if (req.body.user)
 
   db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
     if (err) throw err;
