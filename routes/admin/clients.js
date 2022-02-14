@@ -52,7 +52,7 @@ router.put("/status/:id", (req, res) => {
     res.json({ message: "Non-Authorized User" });
   }
 
-  db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
+  db.query(sql, [ mysql.raw(req.body.user), req.body.decision, req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Client Status Successfully Updated." });
