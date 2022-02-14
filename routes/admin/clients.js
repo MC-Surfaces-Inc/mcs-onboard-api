@@ -46,7 +46,8 @@ router.get("/status/:id", (req, res) => {
 });
 
 router.put("/status/:id", (req, res) => {
-  res.json({ test: req.body });
+  console.log(req.body);
+
   // let sql = `update approvals set ${mysql.escape(req.body.user)}=? where clientId=?;`;
   //
   // if (req.body.user !== "edythc" || req.body.user !== "kimc" || req.body.user !== "lisak") {
