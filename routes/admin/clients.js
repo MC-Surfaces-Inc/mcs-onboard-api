@@ -48,7 +48,7 @@ router.get("/status/:id", (req, res) => {
 router.put("/status/:id", (req, res) => {
   let sql = "update approvals set ?=? where clientId=?;";
 
-  if (!req.query.user || !req.query.decision) {
+  if (!req.body.user || !req.query.body) {
     res.json({ message: "Missing required URI parameter." });
   }
 
