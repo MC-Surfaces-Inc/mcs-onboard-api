@@ -52,7 +52,7 @@ router.put("/status/:id", (req, res) => {
     res.json({ message: "Missing required URI parameter." });
   }
 
-  db.query(sql, [ mysql.raw(req.query.user), mysql.raw(req.query.decision), req.params.clientId ], (err, data) => {
+  db.query(sql, [ mysql.raw(req.body.user), mysql.raw(req.body.decision), req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Client Status Successfully Updated." });
