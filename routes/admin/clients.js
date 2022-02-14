@@ -46,17 +46,18 @@ router.get("/status/:id", (req, res) => {
 });
 
 router.put("/status/:id", (req, res) => {
-  let sql = `update approvals set ${mysql.escape(req.body.user)}=? where clientId=?;`;
-
-  if (req.body.user !== "edythc" || req.body.user !== "kimc" || req.body.user !== "lisak") {
-    res.json({ message: "Non-Authorized User" });
-  }
-
-  db.query(sql, [ req.body.decision, req.params.id ], (err, data) => {
-    if (err) throw err;
-
-    res.json({ message: "Client Status Successfully Updated." });
-  });
+  res.json({ test: req.body });
+  // let sql = `update approvals set ${mysql.escape(req.body.user)}=? where clientId=?;`;
+  //
+  // if (req.body.user !== "edythc" || req.body.user !== "kimc" || req.body.user !== "lisak") {
+  //   res.json({ message: "Non-Authorized User" });
+  // }
+  //
+  // db.query(sql, [ req.body.decision, req.params.id ], (err, data) => {
+  //   if (err) throw err;
+  //
+  //   res.json({ message: "Client Status Successfully Updated." });
+  // });
 });
 
 module.exports = router;
