@@ -48,11 +48,7 @@ router.get("/status/:id", (req, res) => {
 router.put("/status/:id", (req, res) => {
   let sql = "update approvals set ?=? where clientId=?;";
 
-  if (!req.body.user || !req.query.body) {
-    res.json({ message: "Missing required URI parameter." });
-  }
-
-  db.query(sql, [ mysql.raw(req.body.user), mysql.raw(req.body.decision), req.params.clientId ], (err, data) => {
+  db.query(sql, [ req.body.user, req.body.decision, req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Client Status Successfully Updated." });
