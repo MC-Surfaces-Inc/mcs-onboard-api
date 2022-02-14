@@ -45,10 +45,14 @@ router.get("/status/:id", (req, res) => {
   })
 });
 
-router.put("/status", (req, res) => {
+router.put("/status/:id", (req, res) => {
   let sql = "update approvals set ?=? where clientId=?;";
 
-  db.query(sql, [ mysql.raw(req.query.user), mysql.raw(req.query.decision), req.query.clientId ], (err, data) => {
+  if (!req.query.user || !req.query.decision) {
+    res.json({ message: "Missing required URI parameter." });
+  }
+
+  db.query(sql, [ mysql.raw(req.query.user), mysql.raw(req.query.decision), req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Client Status Successfully Updated." });
