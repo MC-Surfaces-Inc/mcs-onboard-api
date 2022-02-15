@@ -35,6 +35,22 @@ router.get("/", (req, res) => {
   });
 });
 
+router.put("/status/:id", (req, res) => {
+  console.log(req.body);
+  //
+  // let sql = `update approvals set ??=? where clientId=?;`;
+  //
+  // if (req.query.user !== "edythc" || req.query.user !== "kimc" || req.query.user !== "lisak") {
+  //   res.json({ message: "Non-Authorized User" });
+  // }
+  //
+  // db.query(sql, [ req.query.user, req.query.decision, req.params.id ], (err, data) => {
+  //   if (err) throw err;
+  //
+  //   res.json({ message: "Client Status Successfully Updated." });
+  // });
+});
+
 router.get("/status/:id", (req, res) => {
   let sql = "select kimc, edythc, lisak from approvals where clientId=?;";
 
@@ -43,22 +59,6 @@ router.get("/status/:id", (req, res) => {
 
     res.json({ approvals: data });
   })
-});
-
-router.put("/status/:id", (req, res) => {
-  console.log(req.query);
-
-  let sql = `update approvals set ??=? where clientId=?;`;
-
-  if (req.query.user !== "edythc" || req.query.user !== "kimc" || req.query.user !== "lisak") {
-    res.json({ message: "Non-Authorized User" });
-  }
-
-  db.query(sql, [ req.query.user, req.query.decision, req.params.id ], (err, data) => {
-    if (err) throw err;
-
-    res.json({ message: "Client Status Successfully Updated." });
-  });
 });
 
 module.exports = router;
