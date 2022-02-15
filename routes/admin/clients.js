@@ -40,13 +40,13 @@ router.put("/status/:id", (req, res) => {
 
   if (req.body.user !== "edythc" || req.body.user !== "kimc" || req.body.user !== "lisak") {
     res.json({ message: "Non-Authorized User" });
+  } else {
+    db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
+      if (err) throw err;
+
+      res.json({ message: "Client Status Successfully Updated." });
+    });
   }
-
-  db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
-    if (err) throw err;
-
-    res.json({ message: "Client Status Successfully Updated." });
-  });
 });
 
 router.get("/status/:id", (req, res) => {
