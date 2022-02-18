@@ -27,7 +27,7 @@ router.post("/", (req, res) => {
 router.get("/", (req, res) => {
   let sql = "select * from clients inner join status on clients.id=status.clientId where userId=?;";;
   if (req.query.userId === "1") {
-    sql = "select * from clients inner join status on clients.id=status.clientId;";
+    sql = "select * from clients inner join status on clients.id=status.clientId inner join users on clients.userId=users.id;";
   }
 
   db.query(sql, [ req.query.userId ], (err, data) => {
