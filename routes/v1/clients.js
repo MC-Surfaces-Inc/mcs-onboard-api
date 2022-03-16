@@ -33,6 +33,7 @@ router.get("/", (req, res) => {
   console.log(req.query)
 
   db.query(sql, [ req.query.userId ], (err, data) => {
+    console.log(err)
     if (err) throw err;
 
     res.json({ clients: data });
