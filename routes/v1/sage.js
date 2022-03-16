@@ -192,7 +192,15 @@ router.post("/Parts", (req, res) => {
     }
   });
 
-  res.send(billingParts);
+  res.send(billingParts)
+
+  // axios.post(`${mcsDomainAPI}/PartClass`, partClass, { headers: headers })
+  //   .then((response) => {
+  //     res.send(response.status);
+  //   })
+  //   .catch((error) => {
+  //     console.error(error);
+  //   });
 });
 
 module.exports = router;

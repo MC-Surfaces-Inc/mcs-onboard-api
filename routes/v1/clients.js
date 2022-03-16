@@ -15,7 +15,7 @@ router.use("/:clientId/files", require("./files"));
 
 router.post("/", (req, res) => {
   let sql = "insert into clients set ?;";
-  
+
   db.query(sql, [ req.body ], (err, data) => {
     if (err) throw err;
 
@@ -88,6 +88,34 @@ router.get("/:id/compile-data", (req, res) => {
   });
 });
 
+router.get("/:id/profile-data", (req, res) => {
+  let sql = `
+    select name, shortName, territory from clients where id=?;
+    select type, address1, address2, city, state, zip from addresses where clientId=?;
+    select name, title, phone, email from contacts where clientId=?;
+    select lisak "Lisa Kallus", edythc "Edyth Cruz", kimc "Kim Conover" from approvals where  clientId=?;
+    select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
+    select status current from status where clientId=?;
+    `
+  ;
+  let params = Array(6).fill(req.params.id);
+
+  db.query(sql, params, (err, data) => {
+    if (err) throw err;
+
+    console.log(data);
+
+    res.json({
+      basicInfo: data[0][0],
+      addresses: data[1],
+      contacts: data[2],
+      approvals: data[3][0],
+      programs: data[4][0],
+      status: data[5][0]
+    });
+  });
+});
+
 // Get a client by id
 router.get("/:id", (req, res) => {
   let sql = "select * from clients where id=?;";
@@ -104,7 +132,7 @@ router.put("/:id", (req, res) => {
   let sql = "update clients set ? where id=?;";
   let newData = req.body;
   newData.updatedAt = mysql.raw("current_timestamp( )");
-  
+
   db.query(sql, [ newData, req.params.id ], (err, data) => {
     if (err) throw err;
 
