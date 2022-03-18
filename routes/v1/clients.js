@@ -25,9 +25,9 @@ router.post("/", (req, res) => {
 
 // Get all of a users clients
 router.get("/", (req, res) => {
-  let sql = "select * from clients inner join status on clients.id=status.clientId where userId=?;";
+  let sql = "select * from clients inner join status on clients.id=status.clientId where userId=? order by name;";
   if (req.query.userId === "1") {
-    sql = "select * from clients inner join status on clients.id=status.clientId inner join users on clients.userId=users.id;";
+    sql = "select * from clients inner join status on clients.id=status.clientId inner join users on clients.userId=users.id order by name;";
   }
 
   console.log(db)
