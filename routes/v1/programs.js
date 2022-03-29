@@ -12,7 +12,7 @@ router.put("/", (req, res) => {
 
     res.json({ message: "Client Program Selections Updated Successfully." });
   });
-}); 
+});
 
 router.get("/", (req, res) => {
   let sql = "select * from programs where clientId=?;";
@@ -31,7 +31,7 @@ router.get("/info", (req, res) => {
   db.query(sql, [ program, req.query.clientId ], (err, data) => {
     if (err) throw err;
 
-    res.json({ data: data[0] });
+    res.json({ program: data[0] });
   });
 });
 
