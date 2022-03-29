@@ -38,7 +38,7 @@ router.get("/", (req, res) => {
 router.put("/status/:id", (req, res) => {
   let sql = `update approvals set ??=? where clientId=?;`;
 
-  if (req.body.user !== "edythc" || req.body.user !== "kimc" || req.body.user !== "lisak") {
+  if (req.body.user !== "edythc" || req.body.user !== "kimn" || req.body.user !== "lisak") {
     res.json({ message: "Non-Authorized User" });
   } else {
     db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
@@ -50,7 +50,7 @@ router.put("/status/:id", (req, res) => {
 });
 
 router.get("/status/:id", (req, res) => {
-  let sql = "select kimc, edythc, lisak from approvals where clientId=?;";
+  let sql = "select kimn, edythc, lisak from approvals where clientId=?;";
 
   db.query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
