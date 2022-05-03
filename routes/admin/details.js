@@ -4,19 +4,16 @@ var mysql = require("mysql");
 
 var db = require("../../db");
 
-router.get("/:id", (req, res) => {
-  let sql = "select * from accounting_details where clientId=?;";
-  let sql2 = "select * from expediting_details where clientId=?;";
+router.get("/", (req, res) => {
+  let options = {
+    sql: `select * from accounting_details inner join expediting_details on accounting_details.clientId=expediting_details.clientId where accounting_details.clientId=?;`,
+    nestTables: true
+  };
 
-  db.query(sql.concat(sql2), [ req.params.id, req.params.id ], (err, data) => {
+  db.query(options, [ req.query.clientId ], (err, data) => {
     if (err) throw err;
 
-    res.json({
-      details: {
-        accounting: data[0],
-        expediting: data[1]
-      }
-    });
+    res.json({ tables: data[0] });
   });
 });
 
