@@ -18,6 +18,7 @@ router.get("/:id/profile-data", (req, res) => {
     select lisak "Lisa Kallus", edythc "Edyth Cruz", kimn "Kim Conover" from approvals where clientId=?;
     select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
     select status current from status where clientId=?;
+    select cabinets, carpet, countertops, tile, wood, vinyl where clientId=?;
     `
   ;
   let params = Array(6).fill(req.params.id);
