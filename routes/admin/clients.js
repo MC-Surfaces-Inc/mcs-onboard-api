@@ -32,7 +32,8 @@ router.get("/:id/profile-data", (req, res) => {
       contacts: data[2],
       approvals: data[3][0],
       programs: data[4][0],
-      status: data[5][0]
+      status: data[5][0],
+      selections: data[6]
     });
   });
 });
