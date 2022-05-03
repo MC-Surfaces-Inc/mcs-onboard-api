@@ -21,7 +21,7 @@ router.get("/:id/profile-data", (req, res) => {
     select cabinets, carpet, countertops, tile, wood, vinyl from programs where clientId=?;
     `
   ;
-  let params = Array(6).fill(req.params.id);
+  let params = Array(7).fill(req.params.id);
 
   db.query(sql, params, (err, data) => {
     if (err) throw err;
@@ -33,7 +33,7 @@ router.get("/:id/profile-data", (req, res) => {
       approvals: data[3][0],
       programs: data[4][0],
       status: data[5][0],
-      selections: data[6]
+      selections: data[6][0]
     });
   });
 });
