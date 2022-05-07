@@ -61,7 +61,7 @@ router.put("/status/:id", (req, res) => {
   } else {
     db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
       if (err) throw err;
-
+      console.log(data)
       res.json({ message: "Client Status Successfully Updated." });
     });
   }
