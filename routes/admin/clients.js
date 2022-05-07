@@ -62,7 +62,7 @@ router.put("/status/:id", (req, res) => {
     db.query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
       if (err) throw err;
 
-      res.json({ message: data });
+      res.send({ message: data });
     });
   }
 });
