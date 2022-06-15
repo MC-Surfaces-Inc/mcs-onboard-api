@@ -20,6 +20,6 @@ const prodDatabase = {
   multipleStatements: true
 };
 
-const dbConnection = mysql.createPool(prodDatabase);
+const dbConnection = mysql.createPool(devDatabase);
 
 module.exports = dbConnection;
