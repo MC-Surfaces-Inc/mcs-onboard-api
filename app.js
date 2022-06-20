@@ -25,7 +25,7 @@ app.use(cors({ origin: "*" }));
 // cron.schedule('* * * * *', ( ) => {
 //    let sql = "select * from status join clients c on c.id = status.clientId;";
 //
-//    db(req.baseUrl)(sql, (err, data) => {
+//    db(req.baseUrl).query(sql, (err, data) => {
 //       let queuedClients = data.filter(client => client.status === "Queued");
 //       let declinedClients = data.filter(client => client.status === "Declined");
 //       let approvedClients = data.filter(client => client.status === "Approved");

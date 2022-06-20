@@ -10,7 +10,7 @@ router.put("/", (req, res) => {
     req.body.pushedAt = mysql.raw("current_timestamp( )");
   }
 
-  db(req.baseUrl)(sql, [ req.body, req.params.clientId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.body, req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Client Status Updated." })
@@ -20,7 +20,7 @@ router.put("/", (req, res) => {
 router.get("/", (req, res) => {
   let sql = "select * from status where clientId=?;";
 
-  db(req.baseUrl)(sql, [ req.params.clientId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ status: data[0] });

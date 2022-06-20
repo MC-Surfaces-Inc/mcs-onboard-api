@@ -16,7 +16,7 @@ router.use("/:clientId/files", require("./files"));
 router.post("/", (req, res) => {
   let sql = "insert into clients set ?;";
 
-  db(req.baseUrl)(sql, [ req.body ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.body ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Client Successfully Created.", data: data });
@@ -30,7 +30,7 @@ router.get("/", (req, res) => {
     sql = "select * from clients inner join status on clients.id=status.clientId inner join users on clients.userId=users.id order by name;";
   }
 
-  db(req.baseUrl)(sql, [ req.query.userId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.query.userId ], (err, data) => {
     console.log(err)
     if (err) throw err;
 
@@ -72,7 +72,7 @@ router.get("/", (req, res) => {
 //   let sqlParams = Array(10).fill(req.params.id, 0, 10);
 //
 //   // Query Application DB for Client Data
-//   db(req.baseUrl)(sql.concat(sql2, sql3, sql4, carpetSQL, countertopsSQL, tileSQL, lvpSQL, woodSQL), sqlParams, async (err, data) => {
+//   db(req.baseUrl).query(sql.concat(sql2, sql3, sql4, carpetSQL, countertopsSQL, tileSQL, lvpSQL, woodSQL), sqlParams, async (err, data) => {
 //     if (err) throw err;
 //
 //     let client = {
@@ -99,7 +99,7 @@ router.get("/:id/profile-data", (req, res) => {
   ;
   let params = Array(6).fill(req.params.id);
 
-  db(req.baseUrl)(sql, params, (err, data) => {
+  db(req.baseUrl).query(sql, params, (err, data) => {
     if (err) throw err;
 
     res.json({
@@ -117,7 +117,7 @@ router.get("/:id/profile-data", (req, res) => {
 router.get("/:id", (req, res) => {
   let sql = "select * from clients where id=?;";
 
-  db(req.baseUrl)(sql, [ req.params.id ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ client: data[0] });
@@ -130,7 +130,7 @@ router.put("/:id", (req, res) => {
   let newData = req.body;
   newData.updatedAt = mysql.raw("current_timestamp( )");
 
-  db(req.baseUrl)(sql, [ newData, req.params.id ], (err, data) => {
+  db(req.baseUrl).query(sql, [ newData, req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Client Updated Successfully." });

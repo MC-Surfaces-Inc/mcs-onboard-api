@@ -7,7 +7,7 @@ var db = require("../../db");
 router.put("/", (req, res) => {
   let sql = "update ? set ? where clientId=?;";
 
-  db(req.baseUrl)(sql, [ mysql.raw(req.query.type), req.body, mysql.raw(req.query.clientId) ], (err, data) => {
+  db(req.baseUrl).query(sql, [ mysql.raw(req.query.type), req.body, mysql.raw(req.query.clientId) ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Details Successfully Updated." });
@@ -20,7 +20,7 @@ router.get("/", (req, res) => {
     nestTables: true
   };
 
-  db(req.baseUrl)(options, [ req.query.clientId ], (err, data) => {
+  db(req.baseUrl).query(options, [ req.query.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ tables: data[0] });

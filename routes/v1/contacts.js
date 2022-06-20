@@ -6,7 +6,7 @@ var db = require("../../db");
 router.post("/", (req, res) => {
   let sql = "insert into contacts(clientId, name, title, phone, email) values ?;";
 
-  db(req.baseUrl)(sql, [ req.body ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.body ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Contact Successfully Created." });
@@ -16,7 +16,7 @@ router.post("/", (req, res) => {
 router.get("/", (req, res) => {
   let sql = "select * from contacts where clientId=?;";
 
-  db(req.baseUrl)(sql, [ req.params.clientId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.params.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ contacts: data });
@@ -26,7 +26,7 @@ router.get("/", (req, res) => {
 router.get("/:id", (req, res) => {
   let sql = "select * from contacts where id=?;";
 
-  db(req.baseUrl)(sql, [ req.params.id ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ contact: data[0] });
@@ -36,7 +36,7 @@ router.get("/:id", (req, res) => {
 router.put("/:id", (req, res) => {
   let sql = "update contacts set ? where id=?;";
 
-  db(req.baseUrl)(sql, [ req.body, req.params.id ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.body, req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Contact Successfully Updated." });
@@ -46,7 +46,7 @@ router.put("/:id", (req, res) => {
 router.delete("/:id", (req, res) => {
   let sql = "delete from contacts where id=?;";
 
-  db(req.baseUrl)(sql, [ req.params.id ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Contact Successfully Deleted." });

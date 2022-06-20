@@ -23,7 +23,7 @@ router.get("/:id/profile-data", (req, res) => {
   ;
   let params = Array(7).fill(req.params.id);
 
-  db(req.baseUrl)(sql, params, (err, data) => {
+  db(req.baseUrl).query(sql, params, (err, data) => {
     if (err) throw err;
 
     res.json({
@@ -46,7 +46,7 @@ router.get("/", (req, res) => {
     join users on clients.userId=users.id 
     join status on status.clientId=clients.id;`;
 
-  db(req.baseUrl).query(sql, (err, data) => {
+  db(req.baseUrl).query.query(sql, (err, data) => {
     if (err) throw err;
 
     res.json({ clients: data });
@@ -59,7 +59,7 @@ router.put("/status/:id", (req, res) => {
   if (req.body.user !== "edythc" && req.body.user !== "kimn" && req.body.user !== "lisak") {
     res.json({ message: `${req.body.user} is a non-authorized user` });
   } else {
-    db(req.baseUrl)(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
+    db(req.baseUrl).query(sql, [ req.body.user, req.body.decision, req.params.id ], (err, data) => {
       if (err) throw err;
 
       res.send({ message: data });
@@ -70,7 +70,7 @@ router.put("/status/:id", (req, res) => {
 router.get("/status/:id", (req, res) => {
   let sql = "select kimn, edythc, lisak from approvals where clientId=?;";
 
-  db(req.baseUrl)(sql, [ req.params.id ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ approvals: data });
