@@ -30,8 +30,6 @@ router.get("/", (req, res) => {
     sql = "select * from clients inner join status on clients.id=status.clientId inner join users on clients.userId=users.id order by name;";
   }
 
-  console.log(db)
-
   db.query(sql, [ req.query.userId ], (err, data) => {
     console.log(err)
     if (err) throw err;

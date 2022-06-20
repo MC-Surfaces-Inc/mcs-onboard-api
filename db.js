@@ -20,6 +20,12 @@ const prodDatabase = {
   multipleStatements: true
 };
 
-const dbConnection = mysql.createPool(prodDatabase);
+const dbConnection = route => {
+  if (route.includes("dev")) {
+    return mysql.createPool(devDatabase);
+  } else {
+    return mysql.createPool(prodDatabase);
+  }
+}
 
 module.exports = dbConnection;

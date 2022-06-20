@@ -33,6 +33,9 @@ app.use(cors({ origin: "*" }));
 //    });
 // });
 
+app.use("/dev/v1", indexRouter);
+app.use("/dev/admin", adminRouter);
+
 app.use("/v1", indexRouter);
 app.use("/admin", adminRouter);
 
