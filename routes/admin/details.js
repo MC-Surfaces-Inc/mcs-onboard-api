@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
     nestTables: true
   };
 
-  db.query(options, [ req.query.clientId ], (err, data) => {
+  db(req.baseUrl)(options, [ req.query.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ tables: data[0] });

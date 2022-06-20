@@ -33,7 +33,7 @@ router.get("/:id", (req, res) => {
 
   let sql = carpetSQL.concat(countertopsSQL, tileSQL, lvpSQL, woodSQL);
   let params = Array(5).fill(req.params.id);
-  db.query(sql, params, (err, data) => {
+  db(req.baseUrl)(sql, params, (err, data) => {
     if (err) throw err;
 
     res.json({

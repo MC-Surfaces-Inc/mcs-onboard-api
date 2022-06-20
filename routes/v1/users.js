@@ -7,11 +7,11 @@ var db = require("../../db");
 router.post("/", (req, res) => {
   let sql = "insert into users set ?;";
 
-  db.query(sql, [ req.body ], (err, data) => {
+  db(req.baseUrl)(sql, [ req.body ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "User Successfully Created." });
-  }); 
+  });
 });
 
 // User Query
@@ -21,7 +21,7 @@ router.get("/", (req, res) => {
   //   continue();
   // }
 
-  db.query(sql, [ req.query.sub ], (err, data) => {
+  db(req.baseUrl)(sql, [ req.query.sub ], (err, data) => {
     if (err) console.log(err);
 
     res.json({ user: data[0] });
@@ -32,7 +32,7 @@ router.get("/", (req, res) => {
 router.get("/", (req, res) => {
   let sql = "select * from users;"
 
-  db.query(sql, (err, data) => {
+  db(req.baseUrl)(sql, (err, data) => {
     if (err) throw err;
 
     res.json({ users: data });
@@ -43,7 +43,7 @@ router.get("/", (req, res) => {
 router.put("/:id", (req, res) => {
   let sql = "update users set ? where id=?;";
 
-  db.query(sql, [ req.body, req.params.id ], (err, data) => {
+  db(req.baseUrl)(sql, [ req.body, req.params.id ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "User Successfully Updated." });
