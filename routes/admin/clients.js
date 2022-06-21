@@ -46,7 +46,7 @@ router.get("/", (req, res) => {
     join users on clients.userId=users.id 
     join status on status.clientId=clients.id;`;
 
-  db(req.baseUrl).query.query(sql, (err, data) => {
+  db(req.baseUrl).query(sql, (err, data) => {
     if (err) throw err;
 
     res.json({ clients: data });
