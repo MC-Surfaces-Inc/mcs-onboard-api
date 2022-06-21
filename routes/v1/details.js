@@ -4,10 +4,10 @@ var router = express.Router( );
 
 var db = require("../../db");
 
-router.put("/accounting", (req, res) => {
-  let sql = "update accounting_details set ? where clientId=?;";
+router.put("/", (req, res) => {
+  let sql = "update ? set ? where clientId=?;";
 
-  db(req.baseUrl).query(sql, [ req.body, req.query.clientId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ mysql.raw(req.query.type), req.body, mysql.raw(req.query.clientId) ], (err, data) => {
     if (err) throw err;
 
     res.json({ message: "Details Successfully Updated." });
