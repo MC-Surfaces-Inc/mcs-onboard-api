@@ -4,7 +4,7 @@ var router = express.Router({ mergeParams: true });
 var db = require("../../db");
 
 router.post("/", (req, res) => {
-  let sql = "insert into contacts(clientId, name, title, phone, email) values ?;";
+  let sql = "insert into contacts set ?;";
 
   db(req.baseUrl).query(sql, [ req.body ], (err, data) => {
     if (err) throw err;
