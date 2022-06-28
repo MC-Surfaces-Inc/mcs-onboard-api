@@ -35,6 +35,17 @@ router.get("/info", (req, res) => {
   });
 });
 
+router.delete("/info", (req, res) => {
+  let program = mysql.raw(req.query.programName);
+  let sql = `delete * from program_details_? where clientId=?;`;
+
+  db(req.baseUrl).query(sql, [ program, req.query.clientId ], (err, data) => {
+    if (err) throw err;
+
+    res.json({ message: "Program Details Successfully Deleted." });
+  });
+});
+
 router.post("/info", (req, res) => {
   let program = mysql.raw(req.query.programName);
   let sql = `insert into program_details_? set ? on duplicate key update ?;`;
