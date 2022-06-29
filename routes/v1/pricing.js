@@ -45,6 +45,16 @@ router.post("/parts", (req, res) => {
   })
 });
 
+router.delete("/parts/:id/program", (req, res) => {
+  let sql = "delete from billing_parts where clientId=? and program=?;";
+
+  db(req.baseUrl).query(sql, [ req.params.clientId, req.query.programName ], (err, data) => {
+    if (err) throw err;
+
+    res.json({ message: "Billing Parts Successfully Deleted" });
+  });
+});
+
 router.delete("/parts/:id", (req, res) => {
   let sql = "delete from billing_parts where id=?;";
 
@@ -52,16 +62,6 @@ router.delete("/parts/:id", (req, res) => {
     if (err) throw err;
 
     res.json({ message: "Billing Part successfully deleted." });
-  });
-});
-
-router.delete("/parts/program", (req, res) => {
-  let sql = "delete from billing_parts where clientId=? and program=?;";
-
-  db(req.baseUrl).query(sql, [ req.query.clientId, req.query.programName ], (err, data) => {
-    if (err) throw err;
-
-    res.json({ message: "Billing Parts Successfully Deleted" });
   });
 });
 
