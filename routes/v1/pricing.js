@@ -56,12 +56,12 @@ router.delete("/parts/:id", (req, res) => {
 });
 
 router.delete("/parts/program", (req, res) => {
-  let sql = `delete from billing_parts where program=? and clientId=?;`;
+  let sql = "delete from billing_parts where clientId=? and program=?;";
 
-  db(req.baseUrl).query(sql, [ req.query.programName, req.query.clientId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.query.clientId, req.query.programName ], (err, data) => {
     if (err) throw err;
 
-    res.json({ program: data[0] });
+    res.json({ message: "Billing Parts Successfully Deleted" });
   });
 });
 
