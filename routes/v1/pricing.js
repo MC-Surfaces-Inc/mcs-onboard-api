@@ -56,10 +56,9 @@ router.delete("/parts/:id", (req, res) => {
 });
 
 router.delete("/parts/program", (req, res) => {
-  let program = mysql.raw(req.query.programName);
   let sql = `delete from billing_parts where program=? and clientId=?;`;
 
-  db(req.baseUrl).query(sql, [ program, req.query.clientId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.query.programName, req.query.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ program: data[0] });
