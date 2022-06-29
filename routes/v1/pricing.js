@@ -51,6 +51,8 @@ router.delete("/parts/:id/program", (req, res) => {
   db(req.baseUrl).query(sql, [ req.params.clientId, req.query.programName ], (err, data) => {
     if (err) throw err;
 
+    console.log(data);
+
     res.json({ message: "Billing Parts Successfully Deleted" });
   });
 });
