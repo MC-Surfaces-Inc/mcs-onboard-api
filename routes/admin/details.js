@@ -8,7 +8,7 @@ router.get("/", (req, res) => {
   let options = {
     sql: `
       select * from accounting_details where clientId=?;
-      select * from expediting details where clientId=?;
+      select * from expediting_details where clientId=?;
     `,
     nestTables: true
   };
