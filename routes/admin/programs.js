@@ -29,7 +29,7 @@ router.get("/:id", (req, res) => {
         cabinets: data[0][0],
         carpet: data[1][0],
         countertops: data[2][0],
-        tile: data[3],
+        tile: data[3][0],
         woodVinyl: data[4][0],
       }
     });
