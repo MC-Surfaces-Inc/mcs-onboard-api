@@ -24,7 +24,7 @@ router.get("/:id", (req, res) => {
   db(req.baseUrl).query(sql.concat(sql2, sql3, sql4, sql5), params, (err, data) => {
     if (err) throw err;
 
-    console.log(res.json());
+    console.log(res);
 
     res.json({
       programs: {
