@@ -10,7 +10,7 @@ router.get("/", (req, res) => {
   db(req.baseUrl).query(sql, [ req.query.clientId, req.query.clientId ], (err, data) => {
     if (err) throw err;
 
-    res.json({ tables: data });
+    res.json({ accounting: data[0], expediting: data[1] });
   });
 });
 
