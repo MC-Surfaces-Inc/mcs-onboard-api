@@ -5,15 +5,9 @@ var mysql = require("mysql");
 var db = require("../../db");
 
 router.get("/", (req, res) => {
-  let options = {
-    sql: `
-      select * from accounting_details where clientId=?;
-      select * from expediting_details where clientId=?;
-    `,
-    nestTables: true
-  };
+  let sql = "select * from accounting_details where clientId=?; select * from expediting_details where clientId=?;"
 
-  db(req.baseUrl).query(options, [ req.query.clientId, req.query.clientId ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.query.clientId, req.query.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ tables: data[0] });
