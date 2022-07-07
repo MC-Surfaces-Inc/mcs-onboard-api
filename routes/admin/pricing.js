@@ -10,7 +10,7 @@ router.get("/:id", (req, res) => {
         join clients c on billing_parts.clientId = c.id
       where clientId=? and program="Carpet";
     `;
-  let countertopsSQL = `select CONCAT_WS(" ", c.name, program, programTable, type, description) as Description, program, programTable, unit as Unit, totalCost as BillingAmount
+  let countertopsSQL = `select CONCAT_WS(" ", c.name, program, programTable, type, description, color) as Description, program, programTable, unit as Unit, totalCost as BillingAmount
       from billing_parts
         join clients c on c.id = billing_parts.clientId
       where clientId=? and program="Countertops";
