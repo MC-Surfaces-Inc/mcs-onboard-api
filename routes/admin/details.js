@@ -6,11 +6,14 @@ var db = require("../../db");
 
 router.get("/", (req, res) => {
   let options = {
-    sql: `select * from accounting_details inner join expediting_details on accounting_details.clientId=expediting_details.clientId where accounting_details.clientId=?;`,
+    sql: `
+      select * from accounting_details where clientId=?;
+      select * from expediting details where clientId=?;
+    `,
     nestTables: true
   };
 
-  db(req.baseUrl).query(options, [ req.query.clientId ], (err, data) => {
+  db(req.baseUrl).query(options, [ req.query.clientId, req.query.clientId ], (err, data) => {
     if (err) throw err;
 
     res.json({ tables: data[0] });
