@@ -14,15 +14,17 @@ router.get("/selections/:id", (req, res) => {
 });
 
 router.get("/:id", (req, res) => {
-  let sql = "select * from program_details_cabinets where clientId=?;";
-  let sql2 = "select * from program_details_carpet where clientId=?;";
-  let sql3 = "select * from program_details_countertops where clientId=?;";
-  let sql4 = "select * from program_details_tile where clientId=?;";
-  let sql5 = "select * from program_details_wood_vinyl where clientId=?;";
+  let sql = "select * from program_details_cabinets join programs on program_details_cabinets.clientId=programs.clientId where program_details_cabinets.clientId=? and programs.cabinets=1;";
+  let sql2 = "select * from program_details_carpet join programs on program_details_carpet.clientId=programs.clientId where program_details_carpet.clientId=? and programs.carpet=1;";
+  let sql3 = "select * from program_details_countertops join programs on program_details_countertops.clientId=programs.clientId where program_details_countertops.clientId=? and programs.countertops=1;";
+  let sql4 = "select * from program_details_tile join programs on program_details_tile.clientId=programs.clientId where program_details_tile.clientId=? and programs.tile=1;";
+  let sql5 = "select * from program_details_wood_vinyl join programs on program_details_wood_vinyl.clientId=programs.clientId where program_details_wood_vinyl.clientId=? and (programs.wood=1 or programs.vinyl=1);";
   let params = Array(5).fill(req.params.id);
 
   db(req.baseUrl).query(sql.concat(sql2, sql3, sql4, sql5), params, (err, data) => {
     if (err) throw err;
+
+    console.log(res.json());
 
     res.json({
       programs: {
