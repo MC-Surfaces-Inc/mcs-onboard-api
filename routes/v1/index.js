@@ -7,6 +7,8 @@ const detailsRouter = require("./details");
 const programsRouter = require("./programs");
 const pricingRouter = require("./pricing");
 const sageRouter = require("./sage");
+const { SlackMessages} = require("../common/SlackMessages/Messages");
+const { findConversation, publishMessage } = require("../common/SlackMessages/slack");
 
 router.use("/users", usersRouter);
 router.use("/clients", clientsRouter);
@@ -17,14 +19,13 @@ router.use("/sage", sageRouter);
 
 /* GET home page. */
 router.get("/", async function(req, res, next) {
-  // const { sendSlackMessage } = require("../common/SlackMessages/slack");
-  // const slackMessageResult = await sendSlackMessage("This is a test message. Please ignore.");
-  //
-  // res.send(slackMessageResult);
+  const conversation = await findConversation("onboard_notifications");
+  const sendMessageResult = await publishMessage(
+    conversation.channels[0].id,
+    SlackMessages.queuedClient.blocks
+  );
 
-  // res.render("index", { title: "Express" });
-
-  res.send({ message: "HELLO" });
+  res.send(sendMessageResult);
 });
 
 module.exports = router;
