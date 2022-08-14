@@ -2,6 +2,7 @@ const express = require('express');
 const axios = require("axios");
 const { XMLParser } = require("fast-xml-parser");
 const _ = require("lodash");
+const logger = require("../common/Logging/logger");
 
 const router = express.Router( );
 
@@ -22,8 +23,16 @@ router.get("/okta-token", (req, res) => {
 
       res.send(token);
     })
-    .catch((error) => {
-      console.error(error);
+    .catch((err) => {
+      if (err) {
+        logger.log({
+          level: "error",
+          message: err,
+          protocol: req.protocol,
+          route: req.originalUrl,
+          timestamp: new Date()
+        });
+      };
     });
 });
 
@@ -81,8 +90,16 @@ router.post("/client", (req, res) => {
     .then((response) => {
       res.send(response);
     })
-    .catch((error) => {
-      console.error(error);
+    .catch((err) => {
+      if (err) {
+        logger.log({
+          level: "error",
+          message: err,
+          protocol: req.protocol,
+          route: req.originalUrl,
+          timestamp: new Date()
+        });
+      };
     });
 });
 
@@ -111,8 +128,16 @@ router.get("/partClass/last-class", (req, res) => {
         Carpet: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 7002 && partClass["@_ObjectID"] < 8000))["@_ObjectID"]) + 1
       });
     })
-    .catch((error) => {
-      console.error(error);
+    .catch((err) => {
+      if (err) {
+        logger.log({
+          level: "error",
+          message: err,
+          protocol: req.protocol,
+          route: req.originalUrl,
+          timestamp: new Date()
+        });
+      };
     });
 });
 
@@ -142,8 +167,16 @@ router.post("/PartClass", (req, res) => {
       .then((response) => {
         res.send(response.status);
       })
-      .catch((error) => {
-        console.error(error);
+      .catch((err) => {
+        if (err) {
+          logger.log({
+            level: "error",
+            message: err,
+            protocol: req.protocol,
+            route: req.originalUrl,
+            timestamp: new Date()
+          });
+        };
       });
   });
 });

@@ -4,6 +4,7 @@ const mysql = require("mysql");
 const db = require("../../db");
 const {findConversation, publishMessage} = require("../common/SlackMessages/slack");
 const {SlackMessages} = require("../common/SlackMessages/Messages");
+const logger = require("../common/Logging/logger");
 
 router.put("/", (req, res) => {
   let sql = `
@@ -16,7 +17,16 @@ router.put("/", (req, res) => {
 
   if (req.body.status === "Queued") {
     db(req.baseUrl).query(sql, [req.params.clientId, req.params.clientId, req.params.clientId], async(err, data) => {
-      if (err) throw err;
+      if (err) {
+        logger.log({
+          level: "error",
+          message: err,
+          protocol: req.protocol,
+          route: req.originalUrl,
+          timestamp: new Date()
+        });
+        throw err;
+      };
 
       const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       const client = { ...data[0][0], ...data[1][0], ...data[2][0] };
@@ -26,8 +36,6 @@ router.put("/", (req, res) => {
         conversation.channels[0].id,
         SlackMessages.queuedClient.blocks(client)
       );
-
-      console.log(sendMessageResult);
     });
   }
 
@@ -36,7 +44,16 @@ router.put("/", (req, res) => {
   }
 
   db(req.baseUrl).query(sql2, [ req.body, req.params.clientId ], (err, data) => {
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({ message: "Client Status Updated." })
   });
@@ -46,7 +63,16 @@ router.get("/", (req, res) => {
   let sql = "select * from status where clientId=?;";
 
   db(req.baseUrl).query(sql, [ req.params.clientId ], (err, data) => {
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({ status: data[0] });
   });

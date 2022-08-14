@@ -3,12 +3,22 @@ var mysql = require("mysql");
 var router = express.Router( );
 
 var db = require("../../db");
+const logger = require("../common/Logging/logger");
 
 router.put("/", (req, res) => {
   let sql = "update ? set ? where clientId=?;";
 
   db(req.baseUrl).query(sql, [ mysql.raw(req.query.type), req.body, mysql.raw(req.query.clientId) ], (err, data) => {
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({ message: "Details Successfully Updated." });
   });
@@ -21,7 +31,16 @@ router.get("/", (req, res) => {
   };
 
   db(req.baseUrl).query(options, [ req.query.clientId ], (err, data) => {
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({ tables: data[0] });
   });

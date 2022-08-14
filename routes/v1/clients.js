@@ -2,10 +2,12 @@ const express = require("express");
 const router = express.Router( );
 const mysql = require("mysql");
 const axios = require("axios");
+const logger = require("../common/Logging/logger");
 const _ = require("lodash");
 const { XMLParser } = require("fast-xml-parser");
 
 const db = require("../../db");
+const winston = require("winston");
 
 router.use("/:clientId/contacts", require("./contacts"));
 router.use("/:clientId/addresses", require("./addresses"));
@@ -17,7 +19,16 @@ router.post("/", (req, res) => {
   let sql = "insert into clients set ?;";
 
   db(req.baseUrl).query(sql, [ req.body ], (err, data) => {
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({ message: "Client Successfully Created.", data: data });
   });
@@ -31,8 +42,16 @@ router.get("/", (req, res) => {
   }
 
   db(req.baseUrl).query(sql, [ req.query.userId ], (err, data) => {
-    console.log(err)
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({ clients: data });
   });
@@ -100,7 +119,16 @@ router.get("/:id/profile-data", (req, res) => {
   let params = Array(6).fill(req.params.id);
 
   db(req.baseUrl).query(sql, params, (err, data) => {
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({
       basicInfo: data[0][0],
@@ -118,7 +146,16 @@ router.get("/:id", (req, res) => {
   let sql = "select * from clients where id=?;";
 
   db(req.baseUrl).query(sql, [ req.params.id ], (err, data) => {
-    if (err) throw err;
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
 
     res.json({ client: data[0] });
   });
@@ -131,7 +168,16 @@ router.put("/:id", (req, res) => {
   newData.updatedAt = mysql.raw("current_timestamp( )");
 
   db(req.baseUrl).query(sql, [ newData, req.params.id ], (err, data) => {
-    if (err) throw err;
+    if (err) {
+      throw err;
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+    };
 
     res.json({ message: "Client Updated Successfully." });
   });
