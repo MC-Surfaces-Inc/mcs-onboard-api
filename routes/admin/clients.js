@@ -12,7 +12,7 @@ router.use("/programs", require("./programs"));
 
 router.get("/:id/profile-data", (req, res) => {
   let sql = `
-    select clients.id as clientId, name, shortName, territory, concat_ws(" ", firstName, lastName) as salesRep, email as salesRepEmail, phone as salesRepPhone from clients join users u on clients.userId=u.id where clients.id=?;
+    select clients.id as clientId, name, shortName, territory, concat_ws(" ", firstName, lastName) as salesRep, email as salesRepEmail, phone as salesRepPhone, sageEmployeeNumber, sageUserId from clients join users u on clients.userId=u.id where clients.id=?;
     select type, CONCAT_WS(" ", address1, address2) address, city, state, zip from addresses where clientId=?;
     select name, title, phone, email from contacts where clientId=?;
     select lisak "Lisa Kallus", edythc "Edyth Cruz", kimn "Kim Conover" from approvals where clientId=?;
