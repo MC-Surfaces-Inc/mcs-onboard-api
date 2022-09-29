@@ -41,13 +41,7 @@ router.get("/client/server-test", (req, res) => {
 
   axios.get(`${mcsDomainAPI}/Client`)
       .then((response) => {
-        let parser = new XMLParser({
-          ignoreAttributes: false
-        });
-
-        let sageResponseJSON = parser.parse(response.data);
-
-        res.send(sageResponseJSON);
+        res.send(response);
       })
       .catch((err) => {
         if (err) {
