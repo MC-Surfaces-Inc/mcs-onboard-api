@@ -12,10 +12,10 @@ router.use("/programs", require("./programs"));
 
 router.get("/:id/profile-data", (req, res) => {
   let sql = `
-    select id, name, shortName, territory from clients where id=?;
+    select clients.id as clientId, name, shortName, territory, concat_ws(" ", firstName, lastName) as salesRep, email as salesRepEmail, phone as salesRepPhone, sageEmployeeNumber, sageUserId from clients join users u on clients.userId=u.id where clients.id=?;
     select type, CONCAT_WS(" ", address1, address2) address, city, state, zip from addresses where clientId=?;
     select name, title, phone, email from contacts where clientId=?;
-    select lisak "Lisa Kallus", edythc "Edyth Cruz", kimn "Kim Conover" from approvals where clientId=?;
+    select lisak "Lisa Kallus", edythc "Edyth Cruz", kimn "Kim Conover", lastSubmittedAt from approvals where clientId=?;
     select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
     select status current from status where clientId=?;
     select cabinets, carpet, countertops, tile, wood, vinyl from programs where clientId=?;
@@ -24,7 +24,9 @@ router.get("/:id/profile-data", (req, res) => {
   let params = Array(7).fill(req.params.id);
 
   db(req.baseUrl).query(sql, params, (err, data) => {
-    if (err) throw err;
+    if (err) {
+      console.log(err);
+    };
 
     res.json({
       basicInfo: data[0][0],
