@@ -36,6 +36,32 @@ router.get("/okta-token", (req, res) => {
     });
 });
 
+router.get("/client/server-test", (req, res) => {
+  let mcsDomainAPI = process.env.MCS_API;
+
+  axios.get(`${mcsDomainAPI}/Client`)
+      .then((response) => {
+        let parser = new XMLParser({
+          ignoreAttributes: false
+        });
+
+        let sageResponseJSON = parser.parse(response.data);
+
+        res.send(sageResponseJSON);
+      })
+      .catch((err) => {
+        if (err) {
+          logger.log({
+            level: "error",
+            message: err,
+            protocol: req.protocol,
+            route: req.originalUrl,
+            timestamp: new Date()
+          });
+        };
+      });
+});
+
 // Body:
 //        Client - info & contacts
 // Headers:
