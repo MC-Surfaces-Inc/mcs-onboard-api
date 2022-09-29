@@ -108,11 +108,11 @@ router.post("/client", (req, res) => {
 router.get("/partClass/last-class", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
-  let headers = {
-    'Authorization': req.header('Authorization'),
-  };
+  // let headers = {
+  //   'Authorization': req.header('Authorization'),
+  // };
 
-  axios.get(`${mcsDomainAPI}/PartClass`, { headers: headers })
+  axios.get(`${mcsDomainAPI}/PartClass`, /*{ headers: headers }*/)
     .then((response) => {
       let parser = new XMLParser({
         ignoreAttributes: false
