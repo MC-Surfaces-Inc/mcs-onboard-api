@@ -31,7 +31,7 @@ router.put("/", (req, res) => {
       const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       const client = { ...data[0][0], ...data[1][0], ...data[2][0] };
       client.lastSubmittedAt = client.lastSubmittedAt.toLocaleDateString('en-us', dateOptions);
-      const conversation = await findConversation("onboard_notifications");
+      const conversation = await findConversation("onboard_heads_up");
       const sendMessageResult = await publishMessage(
         conversation.channels[0].id,
         SlackMessages.queuedClient.blocks(client)
