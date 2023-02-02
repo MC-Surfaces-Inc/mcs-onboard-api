@@ -257,6 +257,8 @@ router.post("/Parts", (req, res) => {
 });
 
 router.get("/clients", (req, res) => {
+  let mcsDomainAPI = process.env.MCS_API;
+
   axios.get(`${mcsDomainAPI}/Client/141`)
       .then((response) => {
         res.send(response.data);
