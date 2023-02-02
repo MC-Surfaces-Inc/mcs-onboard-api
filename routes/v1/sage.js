@@ -256,4 +256,16 @@ router.post("/Parts", (req, res) => {
   //   });
 });
 
+router.get("/clients", (req, res) => {
+  axios.get(`${mcsDomainAPI}/Client/141`)
+      .then((response) => {
+        res.send(response.data);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      })
+});
+
 module.exports = router;
