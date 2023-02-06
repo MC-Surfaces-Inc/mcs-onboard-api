@@ -257,7 +257,7 @@ router.post("/Parts", (req, res) => {
 });
 
 router.get("/clients", (req, res) => {
-  let mcsDomainAPI = process.env.MCS_API;
+  const mcsDomainAPI = process.env.MCS_API;
 
   axios.get(`${mcsDomainAPI}/Client/141`)
       .then((response) => {
@@ -271,11 +271,12 @@ router.get("/clients", (req, res) => {
 });
 
 router.get("/SQL", (req, res) => {
+  const mcsDomainAPI = process.env.MCS_API;
   const data = JSON.stringify("SELECT * FROM Client");
 
   const config = {
     method: 'get',
-    url: 'http://localhost:50993/api/SQL',
+    url: `${mcsDomainAPI}/SQL`,
     headers: {
       'Content-Type': 'application/json'
     },
