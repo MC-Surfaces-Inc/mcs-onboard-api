@@ -259,7 +259,7 @@ router.post("/Parts", (req, res) => {
 router.get("/SQL", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
 
-  axios.post(`${mcsDomainAPI}/`, "SELECT * FROM Client")
+  axios.post(`${mcsDomainAPI}/SQL`, "SELECT * FROM Client")
       .then((response) => {
         console.log(response);
         res.send(response);
