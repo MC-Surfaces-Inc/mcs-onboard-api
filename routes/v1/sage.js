@@ -256,12 +256,13 @@ router.post("/Parts", (req, res) => {
   //   });
 });
 
-router.get("/clients", (req, res) => {
+router.get("/SQL", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/Client/141`)
+  axios.post(`${mcsDomainAPI}/`, "SELECT * FROM Client")
       .then((response) => {
-        res.send(response.data);
+        console.log(response);
+        res.send(response);
       })
       .catch((err) => {
         if (err) {
