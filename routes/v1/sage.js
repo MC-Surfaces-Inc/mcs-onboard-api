@@ -256,19 +256,39 @@ router.post("/Parts", (req, res) => {
   //   });
 });
 
-router.get("/SQL", (req, res) => {
+router.get("/clients", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/SQL`, "SELECT * FROM Client")
+  axios.get(`${mcsDomainAPI}/Client/141`)
       .then((response) => {
-        console.log(response);
-        res.send(response);
+        res.send(response.data);
       })
       .catch((err) => {
         if (err) {
           console.log(err);
         }
       })
+});
+
+router.get("/SQL", (req, res) => {
+  const data = JSON.stringify("SELECT * FROM Client");
+
+  const config = {
+    method: 'get',
+    url: 'http://localhost:50993/api/SQL',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+
+  axios(config)
+      .then(function (response) {
+        console.log(JSON.stringify(response.data));
+      })
+      .catch(function (error) {
+        console.log(error);
+      });
 });
 
 module.exports = router;
