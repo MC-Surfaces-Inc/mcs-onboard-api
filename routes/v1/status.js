@@ -26,7 +26,7 @@ router.put("/", (req, res) => {
           timestamp: new Date()
         });
         throw err;
-      };
+      }
 
       const dateOptions = { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' };
       const client = { ...data[0][0], ...data[1][0], ...data[2][0] };

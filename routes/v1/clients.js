@@ -154,8 +154,9 @@ router.get("/:id", (req, res) => {
         route: req.originalUrl,
         timestamp: new Date()
       });
+
       throw err;
-    };
+    }
 
     res.json({ client: data[0] });
   });
@@ -169,7 +170,6 @@ router.put("/:id", (req, res) => {
 
   db(req.baseUrl).query(sql, [ newData, req.params.id ], (err, data) => {
     if (err) {
-      throw err;
       logger.log({
         level: "error",
         message: err,
@@ -177,6 +177,8 @@ router.put("/:id", (req, res) => {
         route: req.originalUrl,
         timestamp: new Date()
       });
+
+      throw err;
     };
 
     res.json({ message: "Client Updated Successfully." });
