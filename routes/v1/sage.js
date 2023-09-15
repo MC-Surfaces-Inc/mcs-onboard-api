@@ -219,16 +219,24 @@ router.get("/clients/:id", (req, res) => {
 
 router.get("/clients", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
+  const data = JSON.stringify("SELECT * FROM Client");
 
-  axios.get(`${mcsDomainAPI}/Client/141`)
-      .then((response) => {
-        res.send(response.data);
+  const config = {
+    method: 'get',
+    url: `${mcsDomainAPI}/SQL`,
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    data : data
+  };
+
+  axios(config)
+      .then(function (response) {
+        res.send(response.data)
       })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
-        }
-      })
+      .catch(function (error) {
+        console.log(error);
+      });
 });
 
 router.get("/SQL", (req, res) => {
