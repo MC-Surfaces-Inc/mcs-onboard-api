@@ -75,7 +75,30 @@ router.post("/client", (req, res) => {
 
 // Headers:
 //        Authorization - Bearer + Okta Token
-router.get("/partClass/last-class", (req, res) => {
+router.get("/partClasses", (req, res) => {
+  let partClasses;
+  let mcsDomainAPI = process.env.MCS_API;
+
+  axios.get(`${mcsDomainAPI}/PartClass`, /*{ headers: headers }*/)
+      .then((response) => {
+        res.send(response.data);
+      })
+      .catch((err) => {
+        if (err) {
+          logger.log({
+            level: "error",
+            message: err,
+            protocol: req.protocol,
+            route: req.originalUrl,
+            timestamp: new Date()
+          });
+        };
+      });
+});
+
+// Headers:
+//        Authorization - Bearer + Okta Token
+router.get("/partClasses/last-class", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
 
@@ -232,29 +255,6 @@ router.get("/clients", (req, res) => {
 
   axios(config)
       .then(function (response) {
-        res.send(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
-      });
-});
-
-router.get("/SQL", (req, res) => {
-  const mcsDomainAPI = process.env.MCS_API;
-  const data = JSON.stringify("SELECT * FROM Client");
-
-  const config = {
-    method: 'get',
-    url: `${mcsDomainAPI}/SQL`,
-    headers: {
-      'Content-Type': 'application/json'
-    },
-    data : data
-  };
-
-  axios(config)
-      .then(function (response) {
-        console.log(typeof(response.data))
         res.send(response.data)
       })
       .catch(function (error) {
