@@ -254,7 +254,7 @@ router.get("/SQL", (req, res) => {
 
   axios(config)
       .then(function (response) {
-        console.log(response)
+        console.log(typeof(response.data))
         res.send(response.data)
       })
       .catch(function (error) {
