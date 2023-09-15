@@ -6,56 +6,6 @@ const logger = require("../common/Logging/logger");
 
 const router = express.Router( );
 
-router.get("/okta-token", (req, res) => {
-  let oktaDomain = process.env.OKTA_DOMAIN;
-  let oktaEncoding = process.env.OKTA_ENCODING;
-  let headers = {
-    'accept': "application/json",
-    'authorization': `Basic ${oktaEncoding}`,
-    'cache-control': "no-cache",
-    'content-type': "application/x-www-form-urlencoded"
-  };
-
-  // Get Access Token From Okta to call
-  axios.post(oktaDomain, "grant_type=client_credentials&scope=OnBoard", { headers: headers })
-    .then((response) => {
-      let token = response.data.access_token;
-
-      res.send(token);
-    })
-    .catch((err) => {
-      if (err) {
-        logger.log({
-          level: "error",
-          message: err,
-          protocol: req.protocol,
-          route: req.originalUrl,
-          timestamp: new Date()
-        });
-      };
-    });
-});
-
-router.get("/client/server-test", (req, res) => {
-  let mcsDomainAPI = process.env.MCS_API;
-
-  axios.get(`${mcsDomainAPI}/Client`)
-      .then((response) => {
-        res.send(response);
-      })
-      .catch((err) => {
-        if (err) {
-          logger.log({
-            level: "error",
-            message: err,
-            protocol: req.protocol,
-            route: req.originalUrl,
-            timestamp: new Date()
-          });
-        };
-      });
-});
-
 // Body:
 //        Client - info & contacts
 // Headers:
@@ -128,9 +78,6 @@ router.post("/client", (req, res) => {
 router.get("/partClass/last-class", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
-  // let headers = {
-  //   'Authorization': req.header('Authorization'),
-  // };
 
   axios.get(`${mcsDomainAPI}/PartClass`, /*{ headers: headers }*/)
     .then((response) => {
@@ -254,6 +201,20 @@ router.post("/Parts", (req, res) => {
   //   .catch((error) => {
   //     console.error(error);
   //   });
+});
+
+router.get("/clients/:id", (req, res) => {
+  const mcsDomainAPI = process.env.MCS_API;
+
+  axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
+      .then((response) => {
+        res.send(response.data);
+      })
+      .catch((err) => {
+        if (err) {
+          console.log(err);
+        }
+      })
 });
 
 router.get("/clients", (req, res) => {
