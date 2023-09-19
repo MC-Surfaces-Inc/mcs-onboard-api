@@ -247,6 +247,7 @@ router.get("/clients", (req, res) => {
 
   axios(config)
       .then(function (response) {
+        console.log(data)
         res.send(response.data)
       })
       .catch(function (error) {
