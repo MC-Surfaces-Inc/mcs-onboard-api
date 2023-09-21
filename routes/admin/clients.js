@@ -43,10 +43,8 @@ router.get("/:id/profile-data", (req, res) => {
 router.get("/", (req, res) => {
   let sql = `
   select 
-    clients.id as clientId, users.id as userId, users.sageEmployeeNumber, name, territory, status.status, createdAt, clients.updatedAt, clients.sageObjectId, firstName, lastName, email, phone, status.remindAt 
-  from clients 
-    join users on clients.userId=users.id 
-    join status on status.clientId=clients.id;`;
+    id as clientId, name, territory, createdAt, updatedAt, sageObjectId
+  from clients`;
 
   db(req.baseUrl).query(sql, (err, data) => {
     if (err) throw err;
