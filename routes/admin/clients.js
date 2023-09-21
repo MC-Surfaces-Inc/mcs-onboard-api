@@ -40,13 +40,27 @@ router.get("/:id/profile-data", (req, res) => {
   });
 });
 
-router.get("/", (req, res) => {
+router.get("/onboard", (req, res) => {
   let sql = `
   select 
     clients.id as clientId, users.id as userId, users.sageEmployeeNumber, name, territory, status.status, createdAt, clients.updatedAt, firstName, lastName, email, phone, status.remindAt 
   from clients 
     join users on clients.userId=users.id 
     join status on status.clientId=clients.id;`;
+
+  db(req.baseUrl).query(sql, (err, data) => {
+    if (err) throw err;
+
+    res.json({ clients: data });
+  });
+});
+
+router.get("/sage", (req, res) => {
+  let sql = `
+  select 
+    clients.id as clientId, users.id as userId, name territory, createdAt, updatedAt, sageObjectId, sageEmployeeNumber 
+  from clients 
+    join users on clients.userId=users.id;`;
 
   db(req.baseUrl).query(sql, (err, data) => {
     if (err) throw err;
