@@ -229,8 +229,8 @@ router.get("/clients/:id", (req, res) => {
         let nestedClient = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["ClientQryRs"];
         let parsedClient = {};
 
-        Object.keys(client).forEach(attr => {
-          if (client[attr].hasOwnProperty("_text")) {
+        Object.keys(nestedClient).forEach(attr => {
+          if (nestedClient[attr].hasOwnProperty("_text")) {
             parsedClient[attr] = parsedClient[attr]._text;
           }
         });
