@@ -225,9 +225,17 @@ router.get("/clients/:id", (req, res) => {
 
   axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
       .then((response) => {
-        let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4, ignoreDeclaration: true }));
-        let client = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["ClientQryRs"];
-        res.send({ client: client });
+        let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4, ignoreAttributes: true }));
+        let nestedClient = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["ClientQryRs"];
+        let parsedClient = {};
+
+        Object.keys(client).forEach(attr => {
+          if (client[attr].hasOwnProperty("_text")) {
+            parsedClient[attr] = parsedClient[attr]._text;
+          }
+        });
+
+        res.send({ client: parsedClient });
       })
       .catch((err) => {
         if (err) {
