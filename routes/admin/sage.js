@@ -239,6 +239,9 @@ router.get("/clients", (req, res) => {
   const config = {
     method: 'get',
     url: `${mcsDomainAPI}/SQL`,
+    headers: {
+      'Content-Type': 'application/json'
+    },
     data : data
   };
 
