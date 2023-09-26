@@ -223,7 +223,7 @@ router.get("/clients/:id", (req, res) => {
 
   axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
       .then((response) => {
-        res.send(response.data);
+        res.send({ clients: response.data });
       })
       .catch((err) => {
         if (err) {
