@@ -230,9 +230,18 @@ router.get("/clients/:id", (req, res) => {
         let parsedClient = {};
 
         Object.keys(nestedClient).forEach(attr => {
-          console.log(nestedClient[attr].hasOwnProperty("_text"));
           if (nestedClient[attr].hasOwnProperty("_text")) {
             parsedClient[attr] = nestedClient[attr]["_text"];
+          } else if (attr === "ObjectRef") {
+            parsedClient.ObjectID = nestedClient["ObjectRef"]["ObjectID"]["_text"];
+          } else if (attr === "SalespersonRef") {
+            parsedClient.SalespersonRef = nestedClient["SalespersonRef"]["ObjectID"]["_text"];
+          } else if (attr === "ManagerRef") {
+            parsedClient.ManagerRef = nestedClient["ManagerRef"]["ObjectID"]["_text"];
+          } else if (attr === "ClientTypeRef") {
+            parsedClient.ClientTypeRef = nestedClient["ClientTypeRef"]["ObjectID"]["_text"];
+          } else if (attr === "ClientStatusRef") {
+            parsedClient.ClientStatusRef = nestedClient["ClientStatusRef"]["ObjectID"]["_text"];
           } else {
             parsedClient[attr] = nestedClient[attr];
           }
