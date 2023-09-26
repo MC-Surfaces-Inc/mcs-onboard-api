@@ -289,9 +289,10 @@ router.get("/clients", (req, res) => {
 
   axios(config)
       .then(function (response) {
-        const jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4 }));
+        let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4 }));
+        let nestedClients = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["SQLRunRs"]["xml"]["rs:data"]["rs:insert"]["z:row"];
         console.log(jsonResponse);
-        res.send(jsonResponse);
+        res.send({ clients: nestedClients });
       })
       .catch(function (error) {
         console.log(error);
