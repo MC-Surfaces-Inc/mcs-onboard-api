@@ -231,9 +231,11 @@ router.get("/clients/:id", (req, res) => {
 
         Object.keys(nestedClient).forEach(attr => {
           console.log(nestedClient[attr].hasOwnProperty("_text"));
-          // if (nestedClient[attr].hasOwnProperty("_text")) {
-          //   parsedClient[attr] = parsedClient[attr]._text;
-          // }
+          if (nestedClient[attr].hasOwnProperty("_text")) {
+            parsedClient[attr] = nestedClient[attr]["_text"];
+          } else {
+            parsedClient[attr] = nestedClient[attr];
+          }
         });
 
         res.send({ client: parsedClient });
