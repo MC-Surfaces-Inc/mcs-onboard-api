@@ -239,14 +239,12 @@ router.get("/clients", (req, res) => {
   const config = {
     method: 'get',
     url: `${mcsDomainAPI}/SQL`,
-    headers: {
-      'Content-Type': 'application/json'
-    },
     data : data
   };
 
   axios(config)
       .then(function (response) {
+        console.log(typeof(response.data))
         res.send(response.data)
       })
       .catch(function (error) {
