@@ -228,7 +228,8 @@ router.get("/clients/:id", (req, res) => {
         let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4, ignoreAttributes: true }));
         let nestedClient = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["ClientQryRs"];
         let parsedClient = {
-          contacts: []
+          contacts: [],
+          attachments: []
         };
 
         Object.keys(nestedClient).forEach(attr => {
@@ -251,6 +252,14 @@ router.get("/clients/:id", (req, res) => {
               phone: nestedClient["ClientContact"]["Phone"]["_text"],
               email: nestedClient["ClientContact"]["Email"]["_text"],
             });
+          } else if (attr === "ClientAttachmentLine") {
+            parsedClient.attachments = nestedClient[attr].map(attachment => ({
+              id: nestedClient["ClientAttachmentLine"]["ObjectRef"]["RecordID"]["_text"],
+              path: nestedClient["ClientAttachmentLine"]["AttachmentFilePath"]["_text"],
+              description: nestedClient["ClientAttachmentLine"]["Description"]["_text"],
+              attachedBy: nestedClient["ClientAttachmentLine"]["AttachedBy"]["_text"],
+              dateAttached: nestedClient["ClientAttachmentLine"]["DateAttached"]["_text"],
+            }));
           } else {
             parsedClient[attr] = nestedClient[attr];
           }
