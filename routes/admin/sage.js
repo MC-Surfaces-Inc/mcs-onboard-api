@@ -254,11 +254,11 @@ router.get("/clients/:id", (req, res) => {
             });
           } else if (attr === "ClientAttachmentLine") {
             parsedClient.attachments = nestedClient[attr].map(attachment => ({
-              id: attachment["ClientAttachmentLine"]["ObjectRef"]["RecordID"]["_text"],
-              path: attachment["ClientAttachmentLine"]["AttachmentFilePath"]["_text"],
-              description: attachment["ClientAttachmentLine"]["Description"]["_text"],
-              attachedBy: attachment["ClientAttachmentLine"]["AttachedBy"]["_text"],
-              dateAttached: attachment["ClientAttachmentLine"]["DateAttached"]["_text"],
+              id: attachment["ObjectRef"]["RecordID"]["_text"],
+              path: attachment["AttachmentFilePath"]["_text"],
+              description: attachment["Description"]["_text"],
+              attachedBy: attachment["AttachedBy"]["_text"],
+              dateAttached: attachment["DateAttached"]["_text"],
             }));
           } else {
             parsedClient[attr] = nestedClient[attr];
