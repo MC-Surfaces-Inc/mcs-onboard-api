@@ -227,7 +227,7 @@ router.get("/clients/:id", (req, res) => {
       .then((response) => {
         let jsonResponse = convert.xml2json(response.data, { compact: true, spaces: 4 });
         let client = jsonResponse["ClientQryRs"];
-        res.send(client);
+        res.send({ client: client });
       })
       .catch((err) => {
         if (err) {
