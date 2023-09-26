@@ -242,6 +242,13 @@ router.get("/clients/:id", (req, res) => {
             parsedClient.ClientTypeRef = nestedClient["ClientTypeRef"]["ObjectID"]["_text"];
           } else if (attr === "ClientStatusRef") {
             parsedClient.ClientStatusRef = nestedClient["ClientStatusRef"]["ObjectID"]["_text"];
+          } else if (attr === "ClientContact") {
+            parsedClient.contacts.push({
+              index: nestedClient["ClientContact"]["ObjectRef"]["LineID"]["_text"],
+              name: nestedClient["ClientContact"]["ContactName"]["_text"],
+              phone: nestedClient["ClientContact"]["Phone"]["_text"],
+              email: nestedClient["ClientContact"]["Email"]["_text"],
+            });
           } else {
             parsedClient[attr] = nestedClient[attr];
           }
