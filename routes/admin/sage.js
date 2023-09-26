@@ -294,8 +294,7 @@ router.get("/clients", (req, res) => {
         let parsedClients = [];
 
         nestedClients.forEach(client => {
-          console.log(client["_attributes"]);
-          parsedClients.push(client);
+          parsedClients.push(client["_attributes"]);
         });
 
         res.send({ clients: parsedClients });
