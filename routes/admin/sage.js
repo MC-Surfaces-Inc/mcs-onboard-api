@@ -226,6 +226,7 @@ router.get("/clients/:id", (req, res) => {
   axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
       .then((response) => {
         let jsonResponse = convert.xml2json(response.data, { compact: true, spaces: 4, ignoreDeclaration: true });
+        console.log(jsonResponse["api:MBXML"])
         res.send(jsonResponse["api:MBXML"]);
       })
       .catch((err) => {
