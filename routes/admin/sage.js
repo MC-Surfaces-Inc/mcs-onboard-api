@@ -253,7 +253,7 @@ router.get("/clients/:id", (req, res) => {
               email: nestedClient["ClientContact"]["Email"]["_text"],
             });
           } else if (attr === "ClientAttachmentLine") {
-            parsedClient.attachments = nestedClient[attr].map(attachment => ({
+            parsedClient.attachments = nestedClient["ClientAttachmentLine"].map(attachment => ({
               id: attachment["ObjectRef"]["RecordID"]["_text"],
               path: attachment["AttachmentFilePath"]["_text"],
               description: attachment["Description"]["_text"],
