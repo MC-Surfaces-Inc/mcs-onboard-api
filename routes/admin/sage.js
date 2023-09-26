@@ -291,8 +291,13 @@ router.get("/clients", (req, res) => {
       .then(function (response) {
         let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4 }));
         let nestedClients = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["SQLRunRs"]["xml"]["rs:data"]["rs:insert"]["z:row"];
-        console.log(jsonResponse);
-        res.send({ clients: nestedClients });
+        let parsedClients = [];
+
+        nestedClients.forEach(client => {
+          parsedClients.push(client);
+        });
+
+        res.send({ clients: parsedClients });
       })
       .catch(function (error) {
         console.log(error);
