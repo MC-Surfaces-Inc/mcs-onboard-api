@@ -4,6 +4,7 @@ const { XMLParser } = require("fast-xml-parser");
 const _ = require("lodash");
 const logger = require("../common/Logging/logger");
 const convert = require("xml-js");
+const {json} = require("express");
 
 const router = express.Router( );
 
@@ -224,7 +225,8 @@ router.get("/clients/:id", (req, res) => {
 
   axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
       .then((response) => {
-        res.send({ client: response.data });
+        let jsonResponse = convert.xml2json(response.data, { compact: true, spaces: 4 });
+        res.send(jsonResponse);
       })
       .catch((err) => {
         if (err) {
