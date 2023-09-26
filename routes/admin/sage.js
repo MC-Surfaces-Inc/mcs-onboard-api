@@ -249,7 +249,7 @@ router.get("/clients", (req, res) => {
   axios(config)
       .then(function (response) {
         const jsonResponse = convert.xml2json(response.data, { compact: true, spaces: 4 });
-        res.send({ clients: jsonResponse });
+        res.send(jsonResponse);
       })
       .catch(function (error) {
         console.log(error);
