@@ -51,6 +51,8 @@ router.get("/onboard", (req, res) => {
   db(req.baseUrl).query(sql, (err, data) => {
     if (err) throw err;
 
+    console.log(data)
+
     res.json({ clients: data });
   });
 });
