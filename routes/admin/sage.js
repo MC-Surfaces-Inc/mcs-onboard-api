@@ -56,7 +56,7 @@ router.post("/client", (req, res) => {
   };
 
   // Create Client
-  axios.post(`${mcsDomainAPI}/Client`, sageClient, { headers: headers })
+  axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient, { headers: headers })
     .then((response) => {
       res.send(response);
     })
@@ -147,7 +147,7 @@ router.post("/PartClass", (req, res) => {
       }
     };
 
-    axios.post(`${mcsDomainAPI}/PartClass`, partClass, { headers: headers })
+    axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.param}`, partClass, { headers: headers })
       .then((response) => {
         res.send(response.status);
       })
@@ -211,13 +211,13 @@ router.post("/Parts", (req, res) => {
 
   res.send(billingParts)
 
-  // axios.post(`${mcsDomainAPI}/PartClass`, partClass, { headers: headers })
-  //   .then((response) => {
-  //     res.send(response.status);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
+  axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.param}`, partClass, { headers: headers })
+    .then((response) => {
+      res.send(response.status);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 });
 
 router.get("/clients/:id", (req, res) => {
