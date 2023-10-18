@@ -224,7 +224,7 @@ router.post("/Parts", (req, res) => {
 
 router.get("/clients/:id?company=${company}", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
-  let company = req.query["company"];
+  let company = req.query.company;
   console.log("Company: ")
   console.log(company)
 
