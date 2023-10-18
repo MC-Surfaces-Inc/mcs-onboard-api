@@ -76,9 +76,8 @@ router.post("/client", (req, res) => {
 router.get("/partClasses", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
-  let company = req.query["company"];
 
-  axios.get(`${mcsDomainAPI}/PartClass?company=${company}`, /*{ headers: headers }*/)
+  axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, /*{ headers: headers }*/)
       .then((response) => {
         res.send(response.data);
       })
@@ -98,9 +97,8 @@ router.get("/partClasses", (req, res) => {
 router.get("/partClasses/last-class?company=${company}", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
-  let company = req.query["company"];
 
-  axios.get(`${mcsDomainAPI}/PartClass?company=${company}`, /*{ headers: headers }*/)
+  axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, /*{ headers: headers }*/)
     .then((response) => {
       let parser = new XMLParser({
         ignoreAttributes: false
