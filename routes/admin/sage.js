@@ -98,8 +98,9 @@ router.get("/partClasses", (req, res) => {
 router.get("/partClasses/last-class?company=${company}", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
+  let company = req.query["company"];
 
-  axios.get(`${mcsDomainAPI}/PartClass`, /*{ headers: headers }*/)
+  axios.get(`${mcsDomainAPI}/PartClass?company=${company}`, /*{ headers: headers }*/)
     .then((response) => {
       let parser = new XMLParser({
         ignoreAttributes: false
@@ -223,8 +224,9 @@ router.post("/Parts", (req, res) => {
 
 router.get("/clients/:id?company=${company}", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
+  let company = req.query["company"];
 
-  axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
+  axios.get(`${mcsDomainAPI}/Client/${req.params.id}?company=${company}`)
       .then((response) => {
         let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4, ignoreAttributes: true }));
         let nestedClient = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["ClientQryRs"];
@@ -275,13 +277,14 @@ router.get("/clients/:id?company=${company}", (req, res) => {
       })
 });
 
-router.get("/clients?company=${company}", (req, res) => {
+router.get("/clients", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
   const data = JSON.stringify("SELECT * FROM Client");
+  let company = req.query["company"];
 
   const config = {
     method: 'get',
-    url: `${mcsDomainAPI}/SQL`,
+    url: `${mcsDomainAPI}/SQL?company=${company}`,
     headers: {
       'Content-Type': 'application/json'
     },
