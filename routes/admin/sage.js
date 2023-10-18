@@ -225,7 +225,7 @@ router.post("/Parts", (req, res) => {
 router.get("/clients/:id", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
+  axios.get(`${mcsDomainAPI}/client/${req.params.id}?company=${req.query.company}`)
       .then((response) => {
         let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4, ignoreAttributes: true }));
         let nestedClient = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["ClientQryRs"];
