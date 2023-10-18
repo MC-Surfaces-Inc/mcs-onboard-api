@@ -279,11 +279,10 @@ router.get("/clients/:id", (req, res) => {
 router.get("/clients", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
   const data = JSON.stringify("SELECT * FROM Client");
-  let company = req.query["company"];
 
   const config = {
     method: 'get',
-    url: `${mcsDomainAPI}/SQL?company=${company}`,
+    url: `${mcsDomainAPI}/SQL?company=${req.query.company}`,
     headers: {
       'Content-Type': 'application/json'
     },
