@@ -76,8 +76,9 @@ router.post("/client", (req, res) => {
 router.get("/partClasses", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
+  let company = req.query["company"];
 
-  axios.get(`${mcsDomainAPI}/PartClass`, /*{ headers: headers }*/)
+  axios.get(`${mcsDomainAPI}/PartClass?company=${company}`, /*{ headers: headers }*/)
       .then((response) => {
         res.send(response.data);
       })
@@ -94,7 +95,7 @@ router.get("/partClasses", (req, res) => {
       });
 });
 
-router.get("/partClasses/last-class", (req, res) => {
+router.get("/partClasses/last-class?company=${company}", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
 
@@ -220,7 +221,7 @@ router.post("/Parts", (req, res) => {
   //   });
 });
 
-router.get("/clients/:id", (req, res) => {
+router.get("/clients/:id?company=${company}", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
 
   axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
@@ -274,7 +275,7 @@ router.get("/clients/:id", (req, res) => {
       })
 });
 
-router.get("/clients", (req, res) => {
+router.get("/clients?company=${company}", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
   const data = JSON.stringify("SELECT * FROM Client");
 
