@@ -226,6 +226,8 @@ router.get("/clients/:id?company=${company}", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
   let company = req.query["company"];
 
+  console.log(company)
+
   axios.get(`${mcsDomainAPI}/Client/${req.params.id}?company=${company}`)
       .then((response) => {
         let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4, ignoreAttributes: true }));
