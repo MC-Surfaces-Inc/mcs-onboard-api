@@ -54,7 +54,7 @@ router.post("/client", (req, res) => {
   };
 
   // Create Client
-  axios.post(`${mcsDomainAPI}/Client`, sageClient, { headers: headers })
+  axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient, { headers: headers })
     .then((response) => {
       res.send(response);
     })
@@ -75,7 +75,7 @@ router.get("/partClasses", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/PartClass`, /*{ headers: headers }*/)
+  axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, /*{ headers: headers }*/)
       .then((response) => {
         res.send(response.data);
       })
@@ -96,7 +96,7 @@ router.get("/partClasses/last-class", (req, res) => {
   let partClasses;
   let mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/PartClass`, /*{ headers: headers }*/)
+  axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, /*{ headers: headers }*/)
     .then((response) => {
       let parser = new XMLParser({
         ignoreAttributes: false
@@ -145,7 +145,7 @@ router.post("/PartClass", (req, res) => {
       }
     };
 
-    axios.post(`${mcsDomainAPI}/PartClass`, partClass, { headers: headers })
+    axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, partClass, { headers: headers })
       .then((response) => {
         res.send(response.status);
       })
@@ -221,7 +221,7 @@ router.post("/Parts", (req, res) => {
 router.get("/clients/:id", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/Client/${req.params.id}`)
+  axios.get(`${mcsDomainAPI}/Client/${req.params.id}?company=${req.query.company}`)
       .then((response) => {
         res.send(response.data);
       })
@@ -238,7 +238,7 @@ router.get("/clients", (req, res) => {
 
   const config = {
     method: 'get',
-    url: `${mcsDomainAPI}/SQL`,
+    url: `${mcsDomainAPI}/SQL?company=${req.query.company}`,
     headers: {
       'Content-Type': 'application/json'
     },
