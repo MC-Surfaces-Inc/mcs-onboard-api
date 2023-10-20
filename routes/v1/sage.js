@@ -3,6 +3,7 @@ const axios = require("axios");
 const { XMLParser } = require("fast-xml-parser");
 const _ = require("lodash");
 const logger = require("../common/Logging/logger");
+const convert = require("xml-js");
 
 const router = express.Router( );
 
@@ -209,27 +210,67 @@ router.post("/Parts", (req, res) => {
 
   res.send(billingParts)
 
-  // axios.post(`${mcsDomainAPI}/PartClass`, partClass, { headers: headers })
-  //   .then((response) => {
-  //     res.send(response.status);
-  //   })
-  //   .catch((error) => {
-  //     console.error(error);
-  //   });
+  axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.param}`, partClass, { headers: headers })
+    .then((response) => {
+      res.send(response.status);
+    })
+    .catch((error) => {
+      console.error(error);
+    });
 });
 
 router.get("/clients/:id", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/Client/${req.params.id}?company=${req.query.company}`)
-      .then((response) => {
-        res.send(response.data);
-      })
-      .catch((err) => {
-        if (err) {
-          console.log(err);
+  axios.get(`${mcsDomainAPI}/client/${req.params.id}?company=${req.query.company}`)
+    .then((response) => {
+      let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4, ignoreAttributes: true }));
+      let nestedClient = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["ClientQryRs"];
+      let parsedClient = {
+        contacts: [],
+        attachments: []
+      };
+
+      Object.keys(nestedClient).forEach(attr => {
+        if (nestedClient[attr].hasOwnProperty("_text")) {
+          parsedClient[attr] = nestedClient[attr]["_text"];
+        } else if (attr === "ObjectRef") {
+          parsedClient.ObjectID = nestedClient["ObjectRef"]["ObjectID"]["_text"];
+        } else if (attr === "SalespersonRef") {
+          parsedClient.SalespersonRef = nestedClient["SalespersonRef"]["ObjectID"]["_text"];
+        } else if (attr === "ManagerRef") {
+          parsedClient.ManagerRef = nestedClient["ManagerRef"]["ObjectID"]["_text"];
+        } else if (attr === "ClientTypeRef") {
+          parsedClient.ClientTypeRef = nestedClient["ClientTypeRef"]["ObjectID"]["_text"];
+        } else if (attr === "ClientStatusRef") {
+          parsedClient.ClientStatusRef = nestedClient["ClientStatusRef"]["ObjectID"]["_text"];
+        } else if (attr === "ClientContact") {
+          parsedClient.contacts.push({
+            index: nestedClient["ClientContact"]["ObjectRef"]["LineID"]["_text"],
+            name: nestedClient["ClientContact"]["ContactName"]["_text"],
+            phone: nestedClient["ClientContact"]["Phone"]["_text"],
+            email: nestedClient["ClientContact"]["Email"]["_text"],
+          });
+        } else if (attr === "ClientAttachmentLine") {
+          parsedClient.attachments = nestedClient["ClientAttachmentLine"].map(attachment => ({
+            id: attachment["ObjectRef"]["RecordID"]["_text"],
+            path: attachment["AttachmentFilePath"]["_text"],
+            description: attachment["Description"]["_text"],
+            attachedBy: attachment["AttachedBy"]["_text"],
+            dateAttached: attachment["DateAttached"]["_text"],
+          }));
+        } else {
+          parsedClient[attr] = nestedClient[attr];
         }
-      })
+      });
+
+      res.send({ client: parsedClient });
+    })
+    .catch((err) => {
+      if (err) {
+        console.log(err);
+      }
+    })
 });
 
 router.get("/clients", (req, res) => {
@@ -246,12 +287,20 @@ router.get("/clients", (req, res) => {
   };
 
   axios(config)
-      .then(function (response) {
-        res.send(response.data)
-      })
-      .catch(function (error) {
-        console.log(error);
+    .then(function (response) {
+      let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4 }));
+      let nestedClients = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["SQLRunRs"]["xml"]["rs:data"]["rs:insert"]["z:row"];
+      let parsedClients = [];
+
+      nestedClients.forEach(client => {
+        parsedClients.push(client["_attributes"]);
       });
+
+      res.send({ clients: parsedClients });
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
 });
 
 module.exports = router;
