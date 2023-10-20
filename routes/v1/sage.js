@@ -12,6 +12,7 @@ const router = express.Router( );
 router.post("/client", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
   let client = req.body;
+  console.log(client)
   let corpAddr = client.addresses.filter(address => address.type === "Corporate");
   let billingAddr = client.addresses.filter(address => address.type === "Billing");
   let shippingAddr = client.addresses.filter(address => address.type === "Shipping");
