@@ -53,22 +53,24 @@ router.post("/client", (req, res) => {
     // }),
   };
 
+  res.send(sageClient);
+
   // Create Client
-  axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient)
-    .then((response) => {
-      res.send(response);
-    })
-    .catch((err) => {
-      if (err) {
-        logger.log({
-          level: "error",
-          message: err,
-          protocol: req.protocol,
-          route: req.originalUrl,
-          timestamp: new Date()
-        });
-      }
-    });
+  // axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient)
+  //   .then((response) => {
+  //     res.send(response);
+  //   })
+  //   .catch((err) => {
+  //     if (err) {
+  //       logger.log({
+  //         level: "error",
+  //         message: err,
+  //         protocol: req.protocol,
+  //         route: req.originalUrl,
+  //         timestamp: new Date()
+  //       });
+  //     }
+  //   });
 });
 
 router.get("/partClasses", (req, res) => {
