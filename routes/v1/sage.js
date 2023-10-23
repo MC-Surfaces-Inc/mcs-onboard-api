@@ -15,6 +15,9 @@ router.post("/client", (req, res) => {
   let corpAddr = client.addresses.filter(address => address.type === "Corporate");
   let billingAddr = client.addresses.filter(address => address.type === "Billing");
   let shippingAddr = client.addresses.filter(address => address.type === "Shipping");
+  let headers = {
+    'Authorization': req.header('Authorization'),
+  };
 
   let sageClient = {
     info: {
@@ -53,24 +56,22 @@ router.post("/client", (req, res) => {
     // }),
   };
 
-  res.send(sageClient);
-
   // Create Client
-  // axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient)
-  //   .then((response) => {
-  //     res.send(response);
-  //   })
-  //   .catch((err) => {
-  //     if (err) {
-  //       logger.log({
-  //         level: "error",
-  //         message: err,
-  //         protocol: req.protocol,
-  //         route: req.originalUrl,
-  //         timestamp: new Date()
-  //       });
-  //     }
-  //   });
+  axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient, { headers: headers })
+    .then((response) => {
+      res.send(response);
+    })
+    .catch((err) => {
+      if (err) {
+        logger.log({
+          level: "error",
+          message: err,
+          protocol: req.protocol,
+          route: req.originalUrl,
+          timestamp: new Date()
+        });
+      }
+    });
 });
 
 router.get("/partClasses", (req, res) => {
