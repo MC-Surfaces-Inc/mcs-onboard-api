@@ -170,8 +170,16 @@ router.post("/parts", (req, res) => {
     .then((response) => {
       res.sendStatus(response.status);
     })
-    .catch((error) => {
-      res.send(error);
+    .catch((err) => {
+      if (err) {
+        logger.log({
+          level: "error",
+          message: err,
+          protocol: req.protocol,
+          route: req.originalUrl,
+          timestamp: new Date()
+        });
+      };
     });
 });
 
