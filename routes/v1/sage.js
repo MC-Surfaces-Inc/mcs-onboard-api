@@ -78,69 +78,76 @@ router.get("/partClasses", (req, res) => {
       });
 });
 
-router.get("/partClasses/last-class", (req, res) => {
-  let partClasses;
-  let mcsDomainAPI = process.env.MCS_API;
+// router.get("/partClasses/last-class", (req, res) => {
+//   let partClasses;
+//   let mcsDomainAPI = process.env.MCS_API;
+//
+//   axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, /*{ headers: headers }*/)
+//     .then((response) => {
+//       let parser = new XMLParser({
+//         ignoreAttributes: false
+//       });
+//
+//       let sageResponseJSON = parser.parse(response.data);
+//       partClasses = _.get(sageResponseJSON, "api:MBXML.MBXMLMsgsRs.SQLRunRs.xml.rs:data.rs:insert.z:row");
+//
+//       res.send({
+//         Tile: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 200 && partClass["@_ObjectID"] < 1000))["@_ObjectID"]) + 1,
+//         Countertops: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 1001 && partClass["@_ObjectID"] < 1099))["@_ObjectID"]) + 1,
+//         Wood: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 4001 && partClass["@_ObjectID"] < 4100))["@_ObjectID"]) + 1,
+//         Carpet: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 7002 && partClass["@_ObjectID"] < 8000))["@_ObjectID"]) + 1
+//       });
+//     })
+//     .catch((err) => {
+//       if (err) {
+//         logger.log({
+//           level: "error",
+//           message: err,
+//           protocol: req.protocol,
+//           route: req.originalUrl,
+//           timestamp: new Date()
+//         });
+//       };
+//     });
+// });
 
-  axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, /*{ headers: headers }*/)
-    .then((response) => {
-      let parser = new XMLParser({
-        ignoreAttributes: false
-      });
+ router.post("/PartClass", (req, res) => {
+   const mcsDomainAPI = process.env.MCS_API;
+   let partClass = req.body;
+   let sagePartClass = {
+     info: {
+       ObjectID: partClass.id,
+       Name: partClass.name,
+       IndentLevel: partClass.indentLevel
+     }
+   };
 
-      let sageResponseJSON = parser.parse(response.data);
-      partClasses = _.get(sageResponseJSON, "api:MBXML.MBXMLMsgsRs.SQLRunRs.xml.rs:data.rs:insert.z:row");
-
-      res.send({
-        Tile: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 200 && partClass["@_ObjectID"] < 1000))["@_ObjectID"]) + 1,
-        Countertops: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 1001 && partClass["@_ObjectID"] < 1099))["@_ObjectID"]) + 1,
-        Wood: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 4001 && partClass["@_ObjectID"] < 4100))["@_ObjectID"]) + 1,
-        Carpet: parseInt(_.last(partClasses.filter((partClass) => partClass["@_ObjectID"] > 7002 && partClass["@_ObjectID"] < 8000))["@_ObjectID"]) + 1
-      });
-    })
-    .catch((err) => {
-      if (err) {
-        logger.log({
-          level: "error",
-          message: err,
-          protocol: req.protocol,
-          route: req.originalUrl,
-          timestamp: new Date()
-        });
-      };
-    });
-});
-
-router.post("/PartClass", (req, res) => {
-  let programs = req.body.programs;
-  let clientName = req.body.name;
+   axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, sagePartClass)
+     .then((response) => {
+       res.sendStatus(response.status);
+     })
+     .catch((err) => {
+       res.send(err);
+     });
 
   // Create Part Classes (multiple calls, one per program)
-  Object.keys(programs).forEach((program) => {
-    let partClass = {
-      info: {
-        ObjectID: programs[program],
-        Name: clientName,
-        IndentLevel: 2
-      }
-    };
-
-    axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, partClass)
-      .then((response) => {
-        res.send(response.status);
-      })
-      .catch((err) => {
-        if (err) {
-          logger.log({
-            level: "error",
-            message: err,
-            protocol: req.protocol,
-            route: req.originalUrl,
-            timestamp: new Date()
-          });
-        };
-      });
-  });
+  // Object.keys(programs).forEach((program) => {
+  //   let partClass = {
+  //     info: {
+  //       ObjectID: programs[program],
+  //       Name: clientName,
+  //       IndentLevel: 2
+  //     }
+  //   };
+  //
+  //   axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, partClass)
+  //     .then((response) => {
+  //       res.send(response.status);
+  //     })
+  //     .catch((err) => {
+  //       res.send(err);
+  //     });
+  // });
 });
 
 router.post("/Parts", (req, res) => {
