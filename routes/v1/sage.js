@@ -7,7 +7,7 @@ const convert = require("xml-js");
 
 const router = express.Router( );
 
-router.post("/client", (req, res) => {
+router.post("/clients", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
   let client = req.body;
   let corpAddr = client.addresses.filter(address => address.type === "Corporate");
@@ -111,7 +111,7 @@ router.get("/partClasses", (req, res) => {
 //     });
 // });
 
- router.post("/PartClass", (req, res) => {
+ router.post("/partClasses", (req, res) => {
    const mcsDomainAPI = process.env.MCS_API;
    let partClass = req.body;
    let sagePartClass = {
