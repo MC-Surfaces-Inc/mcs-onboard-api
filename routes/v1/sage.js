@@ -40,15 +40,17 @@ router.post("/client", (req, res) => {
       ClientTypeRef: 1,
       ClientStatusRef: 1
     },
-    billingParts: client.billingParts,
-    contacts: client.contacts.map(contact => {
-      return {
-        ContactName: contact.name,
-        JobTitle: contact.title,
-        Phone: contact.phone,
-        Email: contact.email
-      }
-    }),
+    billingParts: [],
+    contacts: []
+    // billingParts: client.billingParts,
+    // contacts: client.contacts.map(contact => {
+    //   return {
+    //     ContactName: contact.name,
+    //     JobTitle: contact.title,
+    //     Phone: contact.phone,
+    //     Email: contact.email
+    //   }
+    // }),
   };
 
   // Create Client
@@ -65,7 +67,7 @@ router.post("/client", (req, res) => {
           route: req.originalUrl,
           timestamp: new Date()
         });
-      };
+      }
     });
 });
 
