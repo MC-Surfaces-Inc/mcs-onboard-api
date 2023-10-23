@@ -7,8 +7,6 @@ const convert = require("xml-js");
 
 const router = express.Router( );
 
-// Body:
-//        Client - info & contacts
 router.post("/client", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
   let client = req.body;
@@ -57,25 +55,22 @@ router.post("/client", (req, res) => {
     })
     .catch((err) => {
       res.send(err);
-      // if (err) {
-      //   logger.log({
-      //     level: "error",
-      //     message: err,
-      //     protocol: req.protocol,
-      //     route: req.originalUrl,
-      //     timestamp: new Date()
-      //   });
-      // }
     });
 });
 
 router.get("/partClasses", (req, res) => {
-  let partClasses;
-  let mcsDomainAPI = process.env.MCS_API;
+  const mcsDomainAPI = process.env.MCS_API;
 
-  axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, /*{ headers: headers }*/)
+  axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`)
       .then((response) => {
-        res.send(response.data);
+        let nestedPartClasses = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["SQLRunRs"]["xml"]["rs:data"]["rs:insert"]["z:row"];
+        let parsedPartClasses = [];
+
+        nestedPartClasses.forEach(partClass => {
+          parsedPartClasses.push(client["_attributes"]);
+        });
+
+        res.send({ partClasses: parsedPartClasses });
       })
       .catch((err) => {
         if (err) {
@@ -123,15 +118,9 @@ router.get("/partClasses/last-class", (req, res) => {
     });
 });
 
-// Body:
-//        programs: Object of part class numbers
-//        name    : Client Name
 router.post("/PartClass", (req, res) => {
   let programs = req.body.programs;
   let clientName = req.body.name;
-  let headers = {
-    'Authorization': req.header('Authorization'),
-  };
 
   // Create Part Classes (multiple calls, one per program)
   Object.keys(programs).forEach((program) => {
@@ -143,7 +132,7 @@ router.post("/PartClass", (req, res) => {
       }
     };
 
-    axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, partClass, { headers: headers })
+    axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, partClass)
       .then((response) => {
         res.send(response.status);
       })
@@ -161,11 +150,6 @@ router.post("/PartClass", (req, res) => {
   });
 });
 
-// Body
-//        billingParts  : Array of All Parts
-//        partClasses   : Object of All New Part Classes
-// Headers:
-//        Authorization - Bearer + Okta Token
 router.post("/Parts", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
   let billingParts = req.body.billingParts;
@@ -273,7 +257,6 @@ router.get("/clients/:id", (req, res) => {
 router.get("/clients", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;
   const data = JSON.stringify("SELECT * FROM Client");
-
   const config = {
     method: 'get',
     url: `${mcsDomainAPI}/SQL?company=${req.query.company}`,
