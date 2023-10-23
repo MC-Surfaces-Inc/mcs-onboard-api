@@ -166,7 +166,7 @@ router.post("/parts", (req, res) => {
   //   }
   // });
 
-  axios.post(`${mcsDomainAPI}/parts?company=${req.query.param}`, billingParts)
+  axios.post(`${mcsDomainAPI}/parts?company=${req.query.company}`, billingParts)
     .then((response) => {
       res.send(response.status);
     })
