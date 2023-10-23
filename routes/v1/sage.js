@@ -129,34 +129,12 @@ router.get("/partClasses", (req, res) => {
      .catch((err) => {
        res.send(err);
      });
-
-  // Create Part Classes (multiple calls, one per program)
-  // Object.keys(programs).forEach((program) => {
-  //   let partClass = {
-  //     info: {
-  //       ObjectID: programs[program],
-  //       Name: clientName,
-  //       IndentLevel: 2
-  //     }
-  //   };
-  //
-  //   axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, partClass)
-  //     .then((response) => {
-  //       res.send(response.status);
-  //     })
-  //     .catch((err) => {
-  //       res.send(err);
-  //     });
-  // });
 });
 
-router.post("/Parts", (req, res) => {
+router.post("/parts", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
   let billingParts = req.body.billingParts;
   let partClasses = req.body.partClasses;
-  let headers = {
-    'Authorization': req.header('Authorization'),
-  };
 
   // Add Part Class to Parts
   billingParts.forEach(part => {
@@ -189,9 +167,7 @@ router.post("/Parts", (req, res) => {
     }
   });
 
-  res.send(billingParts)
-
-  axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.param}`, partClass, { headers: headers })
+  axios.post(`${mcsDomainAPI}/parts?company=${req.query.param}`, billingParts)
     .then((response) => {
       res.send(response.status);
     })
