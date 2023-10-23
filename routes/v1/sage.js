@@ -53,18 +53,19 @@ router.post("/client", (req, res) => {
   // Create Client
   axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient)
     .then((response) => {
-      res.send(response);
+      res.send(response.status);
     })
     .catch((err) => {
-      if (err) {
-        logger.log({
-          level: "error",
-          message: err,
-          protocol: req.protocol,
-          route: req.originalUrl,
-          timestamp: new Date()
-        });
-      }
+      console.log(err);
+      // if (err) {
+      //   logger.log({
+      //     level: "error",
+      //     message: err,
+      //     protocol: req.protocol,
+      //     route: req.originalUrl,
+      //     timestamp: new Date()
+      //   });
+      // }
     });
 });
 
