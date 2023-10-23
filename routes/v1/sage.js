@@ -168,10 +168,10 @@ router.post("/parts", (req, res) => {
 
   axios.post(`${mcsDomainAPI}/part?company=${req.query.company}`, billingParts)
     .then((response) => {
-      res.send(response.status);
+      res.sendStatus(response.status);
     })
     .catch((error) => {
-      console.error(error);
+      res.send(error);
     });
 });
 
