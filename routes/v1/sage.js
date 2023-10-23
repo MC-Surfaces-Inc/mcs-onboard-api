@@ -63,25 +63,18 @@ router.get("/partClasses", (req, res) => {
 
   axios.get(`${mcsDomainAPI}/PartClass?company=${req.query.company}`)
       .then((response) => {
+        let jsonResponse = JSON.parse(convert.xml2json(response.data, { compact: true, spaces: 4 }));
         let nestedPartClasses = jsonResponse["api:MBXML"]["MBXMLMsgsRs"]["SQLRunRs"]["xml"]["rs:data"]["rs:insert"]["z:row"];
         let parsedPartClasses = [];
 
         nestedPartClasses.forEach(partClass => {
-          parsedPartClasses.push(client["_attributes"]);
+          parsedPartClasses.push(partClass["_attributes"]);
         });
 
         res.send({ partClasses: parsedPartClasses });
       })
       .catch((err) => {
-        if (err) {
-          logger.log({
-            level: "error",
-            message: err,
-            protocol: req.protocol,
-            route: req.originalUrl,
-            timestamp: new Date()
-          });
-        };
+        res.send(err);
       });
 });
 
