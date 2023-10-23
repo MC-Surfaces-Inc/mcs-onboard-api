@@ -15,9 +15,6 @@ router.post("/client", (req, res) => {
   let corpAddr = client.addresses.filter(address => address.type === "Corporate");
   let billingAddr = client.addresses.filter(address => address.type === "Billing");
   let shippingAddr = client.addresses.filter(address => address.type === "Shipping");
-  let headers = {
-    'Authorization': req.header('Authorization'),
-  };
 
   let sageClient = {
     info: {
@@ -43,17 +40,14 @@ router.post("/client", (req, res) => {
       ClientTypeRef: 1,
       ClientStatusRef: 1
     },
-    billingParts: [],
-    contacts: []
-    // billingParts: client.billingParts,
-    // contacts: client.contacts.map(contact => {
-    //   return {
-    //     ContactName: contact.name,
-    //     JobTitle: contact.title,
-    //     Phone: contact.phone,
-    //     Email: contact.email
-    //   }
-    // }),
+    contacts: client.contacts.map(contact => {
+      return {
+        ContactName: contact.name,
+        JobTitle: contact.title,
+        Phone: contact.phone,
+        Email: contact.email
+      }
+    }),
   };
 
   // Create Client
