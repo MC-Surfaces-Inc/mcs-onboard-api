@@ -133,39 +133,38 @@ router.get("/partClasses", (req, res) => {
 
 router.post("/parts", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
-  let billingParts = req.body.billingParts;
-  let partClasses = req.body.partClasses;
+  let billingParts = req.body.parts;
 
-  // Add Part Class to Parts
-  billingParts.forEach(part => {
-    if (part.program === 'Tile') {
-      part.PartClassRef = partClasses.Tile;
-      part.Desc = part.Description;
-      delete part.Description;
-      delete part.program;
-    }
-
-    if (part.program === 'Carpet') {
-      part.PartClassRef = partClasses.Carpet;
-      part.Desc = part.Description;
-      delete part.Description;
-      delete part.program;
-    }
-
-    if (part.program === 'Countertops') {
-      part.PartClassRef = partClasses.Countertops;
-      part.Desc = part.Description;
-      delete part.Description;
-      delete part.program;
-    }
-
-    if (part.program === 'Wood' || part.program === 'LVP') {
-      part.PartClassRef = partClasses.Wood;
-      part.Desc = part.Description;
-      delete part.Description;
-      delete part.program;
-    }
-  });
+  // // Add Part Class to Parts
+  // billingParts.forEach(part => {
+  //   if (part.program === 'Tile') {
+  //     part.PartClassRef = partClasses.Tile;
+  //     part.Desc = part.Description;
+  //     delete part.Description;
+  //     delete part.program;
+  //   }
+  //
+  //   if (part.program === 'Carpet') {
+  //     part.PartClassRef = partClasses.Carpet;
+  //     part.Desc = part.Description;
+  //     delete part.Description;
+  //     delete part.program;
+  //   }
+  //
+  //   if (part.program === 'Countertops') {
+  //     part.PartClassRef = partClasses.Countertops;
+  //     part.Desc = part.Description;
+  //     delete part.Description;
+  //     delete part.program;
+  //   }
+  //
+  //   if (part.program === 'Wood' || part.program === 'LVP') {
+  //     part.PartClassRef = partClasses.Wood;
+  //     part.Desc = part.Description;
+  //     delete part.Description;
+  //     delete part.program;
+  //   }
+  // });
 
   axios.post(`${mcsDomainAPI}/parts?company=${req.query.param}`, billingParts)
     .then((response) => {
