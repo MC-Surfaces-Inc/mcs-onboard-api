@@ -133,7 +133,7 @@ router.get("/partClasses", (req, res) => {
 
 router.post("/parts", (req, res) => {
   let mcsDomainAPI = process.env.MCS_API;
-  let billingParts = req.body.parts;
+  let billingParts = req.body;
 
   // // Add Part Class to Parts
   // billingParts.forEach(part => {
