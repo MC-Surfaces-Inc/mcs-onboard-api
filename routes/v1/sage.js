@@ -171,15 +171,13 @@ router.post("/parts", (req, res) => {
       res.sendStatus(response.status);
     })
     .catch((err) => {
-      if (err) {
-        logger.log({
-          level: "error",
-          message: err,
-          protocol: req.protocol,
-          route: req.originalUrl,
-          timestamp: new Date()
-        });
-      };
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
     });
 });
 
