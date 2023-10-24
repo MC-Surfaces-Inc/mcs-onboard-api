@@ -171,13 +171,7 @@ router.post("/parts", (req, res) => {
       res.sendStatus(response);
     })
     .catch((err) => {
-      logger.log({
-        level: "error",
-        message: err,
-        protocol: req.protocol,
-        route: req.originalUrl,
-        timestamp: new Date()
-      });
+      console.log(err)
     });
 });
 
