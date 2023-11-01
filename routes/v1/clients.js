@@ -143,7 +143,7 @@ router.get("/:id/profile-data", (req, res) => {
 
 router.get("/:id/submittal-data", (req, res) => {
   let sql = `
-    select name, shortName, employeeNumber, arSpecialist from clients where id=?;
+    select name, shortName, employeeNumber, arSpecialist, territory from clients where id=?;
     select id, clientId, type, address1, address2, city, state, zip from addresses where clientId=?;
     select id, clientId, name, title, phone, email from contacts where clientId=?;
     `
