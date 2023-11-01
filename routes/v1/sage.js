@@ -51,8 +51,7 @@ router.post("/clients", (req, res) => {
   // Create Client
   axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient)
     .then((response) => {
-      console.log(response);
-      res.sendStatus(response.status);
+      res.send(response);
     })
     .catch((err) => {
       res.send(err);
