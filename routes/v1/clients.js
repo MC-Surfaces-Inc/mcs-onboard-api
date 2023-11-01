@@ -160,7 +160,9 @@ router.get("/:id/submittal-data", (req, res) => {
         timestamp: new Date()
       });
       throw err;
-    };
+    }
+
+    console.log(res);
 
     res.json({
       info: data[0][0],
