@@ -51,6 +51,7 @@ router.post("/clients", (req, res) => {
   // Create Client
   axios.post(`${mcsDomainAPI}/Client?company=${req.query.company}`, sageClient)
     .then((response) => {
+      console.log(response);
       res.sendStatus(response.status);
     })
     .catch((err) => {
@@ -124,6 +125,7 @@ router.get("/partClasses", (req, res) => {
 
    axios.post(`${mcsDomainAPI}/PartClass?company=${req.query.company}`, sagePartClass)
      .then((response) => {
+       console.log(response)
        res.sendStatus(response.status);
      })
      .catch((err) => {
@@ -131,50 +133,50 @@ router.get("/partClasses", (req, res) => {
      });
 });
 
-router.post("/parts", (req, res) => {
-  let mcsDomainAPI = process.env.MCS_API;
-  let billingParts = req.body;
-
-  // // Add Part Class to Parts
-  // billingParts.forEach(part => {
-  //   if (part.program === 'Tile') {
-  //     part.PartClassRef = partClasses.Tile;
-  //     part.Desc = part.Description;
-  //     delete part.Description;
-  //     delete part.program;
-  //   }
-  //
-  //   if (part.program === 'Carpet') {
-  //     part.PartClassRef = partClasses.Carpet;
-  //     part.Desc = part.Description;
-  //     delete part.Description;
-  //     delete part.program;
-  //   }
-  //
-  //   if (part.program === 'Countertops') {
-  //     part.PartClassRef = partClasses.Countertops;
-  //     part.Desc = part.Description;
-  //     delete part.Description;
-  //     delete part.program;
-  //   }
-  //
-  //   if (part.program === 'Wood' || part.program === 'LVP') {
-  //     part.PartClassRef = partClasses.Wood;
-  //     part.Desc = part.Description;
-  //     delete part.Description;
-  //     delete part.program;
-  //   }
-  // });
-
-  axios.post(`${mcsDomainAPI}/part?company=${req.query.company}`, billingParts)
-    .then((response) => {
-      console.log(response);
-      res.send(response);
-    })
-    .catch((err) => {
-      console.log(err)
-    });
-});
+// router.post("/parts", (req, res) => {
+//   let mcsDomainAPI = process.env.MCS_API;
+//   let billingParts = req.body;
+//
+//   // // Add Part Class to Parts
+//   // billingParts.forEach(part => {
+//   //   if (part.program === 'Tile') {
+//   //     part.PartClassRef = partClasses.Tile;
+//   //     part.Desc = part.Description;
+//   //     delete part.Description;
+//   //     delete part.program;
+//   //   }
+//   //
+//   //   if (part.program === 'Carpet') {
+//   //     part.PartClassRef = partClasses.Carpet;
+//   //     part.Desc = part.Description;
+//   //     delete part.Description;
+//   //     delete part.program;
+//   //   }
+//   //
+//   //   if (part.program === 'Countertops') {
+//   //     part.PartClassRef = partClasses.Countertops;
+//   //     part.Desc = part.Description;
+//   //     delete part.Description;
+//   //     delete part.program;
+//   //   }
+//   //
+//   //   if (part.program === 'Wood' || part.program === 'LVP') {
+//   //     part.PartClassRef = partClasses.Wood;
+//   //     part.Desc = part.Description;
+//   //     delete part.Description;
+//   //     delete part.program;
+//   //   }
+//   // });
+//
+//   axios.post(`${mcsDomainAPI}/part?company=${req.query.company}`, billingParts)
+//     .then((response) => {
+//       console.log(response);
+//       res.send(response);
+//     })
+//     .catch((err) => {
+//       console.log(err)
+//     });
+// });
 
 router.get("/clients/:id", (req, res) => {
   const mcsDomainAPI = process.env.MCS_API;

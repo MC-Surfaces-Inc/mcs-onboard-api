@@ -141,6 +141,35 @@ router.get("/:id/profile-data", (req, res) => {
   });
 });
 
+router.get("/:id/submittal-data", (req, res) => {
+  let sql = `
+    select name, shortName, territory from clients where id=?;
+    select id, clientId, type, address1, address2, city, state, zip from addresses where clientId=?;
+    select id, clientId, name, title, phone, email from contacts where clientId=?;
+    `
+  ;
+  let params = Array(3).fill(req.params.id);
+
+  db(req.baseUrl).query(sql, params, (err, data) => {
+    if (err) {
+      logger.log({
+        level: "error",
+        message: err,
+        protocol: req.protocol,
+        route: req.originalUrl,
+        timestamp: new Date()
+      });
+      throw err;
+    };
+
+    res.json({
+      info: data[0][0],
+      addresses: data[1],
+      contacts: data[2],
+    });
+  });
+});
+
 // Get a client by id
 router.get("/:id", (req, res) => {
   let sql = "select * from clients where id=?;";
