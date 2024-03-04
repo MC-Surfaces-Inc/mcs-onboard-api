@@ -1,5 +1,6 @@
 const express = require("express");
 const router = express.Router();
+const path = require("path");
 
 const usersRouter = require("./users");
 const clientsRouter = require("./clients");
@@ -26,6 +27,10 @@ router.get("/", async function(req, res, next) {
   );
 
   res.send(sendMessageResult);
+});
+
+router.get("/privacy-policy", (req, res) => {
+  res.sendFile(path.join(__dirname, "../../public/privacy_policy.html"));
 });
 
 module.exports = router;
