@@ -13,6 +13,20 @@ router.post("/", (req, res) => {
   });
 });
 
+// User Query
+router.get("/", (req, res) => {
+  let sql = "select * from users where auth0Sub=?;";
+  // if (req.query.sub === null) {
+  //   continue();
+  // }
+
+  db(req.baseUrl).query(sql, [ req.query.sub ], (err, data) => {
+    if (err) console.log(err);
+
+    res.json({ user: data[0] });
+  });
+});
+
 // Get all users
 router.get("/", (req, res) => {
   let sql = "select * from users;"
