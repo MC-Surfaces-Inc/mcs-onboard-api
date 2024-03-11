@@ -23,7 +23,7 @@ router.get("/", (req, res) => {
   db(req.baseUrl).query(sql, [ req.query.sub ], (err, data) => {
     if (err) console.log(err);
 
-    res.json({ user: data[0] });
+    res.json(data[0]);
   });
 });
 
