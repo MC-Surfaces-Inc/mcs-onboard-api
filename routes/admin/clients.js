@@ -17,7 +17,7 @@ router.get("/:id/profile-data", (req, res) => {
     select name, title, phone, email from contacts where clientId=?;
     select lisak "Lisa Kallus", edythc "Edyth Cruz", kimn "Kim Conover", lastSubmittedAt from approvals where clientId=?;
     select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
-    select status current from status where clientId=?;
+    select current from statuses where clientId=?;
     select cabinets, carpet, countertops, tile, wood, vinyl from programs where clientId=?;
     `
   ;
@@ -43,10 +43,10 @@ router.get("/:id/profile-data", (req, res) => {
 router.get("/onboard", (req, res) => {
   let sql = `
   select 
-    clients.id as clientId, users.id as userId, users.sageEmployeeNumber, name, territory, status.status, createdAt, clients.updatedAt, firstName, lastName, email, phone, status.remindAt, sageObjectId
+    clients.id as clientId, users.id as userId, users.sageEmployeeNumber, name, territory, statuses.current, clients.createdAt, clients.updatedAt, firstName, lastName, email, phone, statuses.remindAt, sageObjectId
   from clients 
     join users on clients.userId=users.id 
-    join status on status.clientId=clients.id;`;
+    join statuses on statuses.clientId=clients.id;`;
 
   db(req.baseUrl).query(sql, (err, data) => {
     if (err) throw err;
