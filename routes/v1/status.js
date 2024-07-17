@@ -9,11 +9,11 @@ const logger = require("../common/Logging/logger");
 router.put("/", (req, res) => {
   let sql = `
     select clients.id, firstName, lastName, name, territory from clients join users u on clients.userId = u.id where clients.id=?;
-    select status current from status where clientId=?;
+    select current from statuses where clientId=?;
     select timesSubmitted, lastSubmittedAt from approvals where clientId=?;
     `
   ;
-  let sql2 = "update status set ? where clientId=?;";
+  let sql2 = "update statuses set ? where clientId=?;";
 
   if (req.body.status === "Queued") {
     db(req.baseUrl).query(sql, [req.params.clientId, req.params.clientId, req.params.clientId], async(err, data) => {
@@ -60,7 +60,7 @@ router.put("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  let sql = "select * from status where clientId=?;";
+  let sql = "select * from statuses where clientId=?;";
 
   db(req.baseUrl).query(sql, [ req.params.clientId ], (err, data) => {
     if (err) {
