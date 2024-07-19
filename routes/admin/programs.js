@@ -13,7 +13,7 @@ router.get("/selections/:id", (req, res) => {
   });
 });
 
-router.get((req, res) => {
+router.get("/:id", (req, res) => {
   let sql = "select substitutionsAllowed, preferredColors, preferredStyle, overlay, preferredCrown, bidType, upperCabinetSpecs, vanityHeightSpecs, softCloseStandard, areasOptionedOut, notes from program_details_cabinets join programs on program_details_cabinets.clientId=programs.clientId where program_details_cabinets.clientId=? and programs.cabinets=1;";
   let sql2 = "select substitutionsAllowed, preferredPadding, takeoffResponsibility, wasteFactor, notes from program_details_carpet join programs on program_details_carpet.clientId=programs.clientId where program_details_carpet.clientId=? and programs.carpet=1;";
   let sql3 = "select substitutionsAllowed, preferredMaterialThickness, preferredEdge, waterfallEdgeStandard, faucetHoles, stoveRangeSpecifications, takeoffResponsibility, wasteFactor, notes from program_details_countertops join programs on program_details_countertops.clientId=programs.clientId where program_details_countertops.clientId=? and programs.countertops=1;";
@@ -34,6 +34,6 @@ router.get((req, res) => {
       }
     });
   });
-}, "/:id");
+});
 
 module.exports = router;
