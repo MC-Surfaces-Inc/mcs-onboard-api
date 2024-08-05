@@ -91,7 +91,7 @@ router.get("/status/:id", (req, res) => {
   db(req.baseUrl).query(sql, [ req.params.id ], (err, data) => {
     if (err) throw err;
 
-    res.json({ approvals: data });
+    res.json({ approvals: data[0] });
   })
 });
 
