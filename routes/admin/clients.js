@@ -93,4 +93,24 @@ router.get("/status/:id", (req, res) => {
   })
 });
 
+router.get("/approval", (req, res) => {
+  let sql = "select decision, firstName, lastName from client_approvals join users on userId=users.id where clientId=?;";
+
+  db(req.baseUrl).query(sql, [ req.query.id ], (err, data) => {
+    if (err) throw err;
+
+    res.send({ approvals: data });
+  });
+});
+
+router.put("/approval", (req, res) => {
+  let sql = "insert into client_approvals set ?;";
+
+  db(req.baseUrl).query(sql, req.body, (err, data) => {
+    if (err) throw err;
+
+    res.send({ message: "Client status successfully updated." });
+  })
+})
+
 module.exports = router;
