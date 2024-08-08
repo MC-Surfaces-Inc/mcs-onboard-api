@@ -19,9 +19,10 @@ router.get("/:id/profile-data", (req, res) => {
     select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
     select current from statuses where clientId=?;
     select cabinets, carpet, countertops, tile, wood, vinyl from programs where clientId=?;
+    select decision, firstName, lastName from client_approvals join users on userId=users.id where clientId=?;
     `
   ;
-  let params = Array(7).fill(req.params.id);
+  let params = Array(8).fill(req.params.id);
 
   db(req.baseUrl).query(sql, params, (err, data) => {
     if (err) {
@@ -35,7 +36,8 @@ router.get("/:id/profile-data", (req, res) => {
       approvals: data[3][0],
       programs: data[4][0],
       status: data[5][0],
-      selections: data[6][0]
+      selections: data[6][0],
+      clientApprovals: data[7][0]
     });
   });
 });
