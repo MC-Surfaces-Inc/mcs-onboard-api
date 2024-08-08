@@ -27,7 +27,7 @@ router.get("/:id/profile-data", (req, res) => {
   db(req.baseUrl).query(sql, params, (err, data) => {
     if (err) {
       console.log(err);
-    };
+    }
 
     res.json({
       basicInfo: data[0][0],
@@ -37,7 +37,7 @@ router.get("/:id/profile-data", (req, res) => {
       programs: data[4][0],
       status: data[5][0],
       selections: data[6][0],
-      clientApprovals: data[7][0]
+      clientApprovals: data[7]
     });
   });
 });
