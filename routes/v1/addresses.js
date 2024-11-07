@@ -24,7 +24,7 @@ router.post("/", (req, res) => {
 });
 
 router.get("/", (req, res) => {
-  let sql = "select *, CONCAT_WS(' ', address1, address2) as address from addresses where clientId=?;";
+  let sql = "select * from addresses where clientId=?;";
 
   db(req.baseUrl).query(sql, [ req.params.clientId ], (err, data) => {
     if (err) {
