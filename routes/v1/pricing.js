@@ -45,7 +45,7 @@ router.get("/countertop_options", (req, res) => {
 });
 
 router.get("/parts", (req, res) => {
-  let sql = "select * from billing_parts where clientId=? and program=? order by level;";
+  let sql = "select * from billing_parts where clientId=? and program=? order by field(level, 'BASE') desc, level;";
 
   db(req.baseUrl).query(sql, [ req.query.clientId, req.query.programName ], (err, data) => {
     if (err) {
