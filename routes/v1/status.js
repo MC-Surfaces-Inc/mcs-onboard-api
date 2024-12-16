@@ -25,6 +25,8 @@ router.put("/", (req, res) => {
           route: req.originalUrl,
           timestamp: new Date()
         });
+
+        // res.json({ error: err });
         throw err;
       }
 

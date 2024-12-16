@@ -1,8 +1,7 @@
-var express = require("express");
-var router = express.Router( );
-var mysql = require("mysql");
+const express = require("express");
+const router = express.Router( );
 
-var db = require("../../db");
+const db = require("../../db");
 const logger = require("../common/Logging/logger");
 
 router.get("/", (req, res) => {
@@ -57,7 +56,7 @@ router.get("/parts", (req, res) => {
         timestamp: new Date()
       });
       throw err;
-    };
+    }
 
     res.json({ parts: data });
   });
@@ -76,7 +75,7 @@ router.post("/parts", (req, res) => {
         timestamp: new Date()
       });
       throw err;
-    };
+    }
 
     res.json({ message: "Client Billing Parts Successfully Created." });
   })
@@ -95,12 +94,10 @@ router.delete("/parts/:id/program", (req, res) => {
         timestamp: new Date()
       });
       throw err;
-    };
+    }
 
     res.json({ message: "Billing Parts Successfully Deleted" });
   });
-
-  console.log(query);
 });
 
 router.delete("/parts/:id", (req, res) => {
@@ -116,7 +113,7 @@ router.delete("/parts/:id", (req, res) => {
         timestamp: new Date()
       });
       throw err;
-    };
+    }
 
     res.json({ message: "Billing Part successfully deleted." });
   });
@@ -135,7 +132,7 @@ router.get("/in-house", (req, res) => {
         timestamp: new Date()
       });
       throw err;
-    };
+    }
 
     res.json({ parts: data });
   });

@@ -1,6 +1,6 @@
 const express = require('express');
 const axios = require("axios");
-const { XMLParser } = require("fast-xml-parser");
+// const { XMLParser } = require("fast-xml-parser");
 const _ = require("lodash");
 const logger = require("../common/Logging/logger");
 const convert = require("xml-js");
