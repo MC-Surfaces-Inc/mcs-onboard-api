@@ -1,8 +1,7 @@
-var express = require("express");
-var router = express.Router( );
-var mysql = require("mysql");
+const express = require("express");
+const router = express.Router( );
 
-var db = require("../../db");
+const db = require("../../db");
 
 router.post("/", (req, res) => {
   let sql = "insert into users set ?;";
@@ -17,9 +16,6 @@ router.post("/", (req, res) => {
 // User Query
 router.get("/", (req, res) => {
   let sql = "select * from users where auth0Sub=?;";
-  // if (req.query.sub === null) {
-  //   continue();
-  // }
 
   db(req.baseUrl).query(sql, [ req.query.sub ], (err, data) => {
     if (err) console.log(err);

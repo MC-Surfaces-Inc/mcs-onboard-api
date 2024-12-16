@@ -1,13 +1,10 @@
 const express = require("express");
 const router = express.Router( );
 const mysql = require("mysql");
-const axios = require("axios");
 const logger = require("../common/Logging/logger");
 const _ = require("lodash");
-const { XMLParser } = require("fast-xml-parser");
 
 const db = require("../../db");
-const winston = require("winston");
 
 router.use("/:clientId/contacts", require("./contacts"));
 router.use("/:clientId/addresses", require("./addresses"));

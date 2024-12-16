@@ -1,7 +1,7 @@
-var express = require("express");
-var router = express.Router( );
+const express = require("express");
+const router = express.Router( );
 
-var db = require("../../db");
+const db = require("../../db");
 
 router.get("/", (req, res) => {
   let sql = "select * from files where clientId=?;";

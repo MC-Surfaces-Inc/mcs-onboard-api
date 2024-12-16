@@ -1,8 +1,8 @@
-var express = require("express");
-var router = express.Router( );
-var mysql = require("mysql");
+const express = require("express");
+const router = express.Router( );
+const mysql = require("mysql");
 
-var db = require("../../db");
+const db = require("../../db");
 const logger = require("../common/Logging/logger");
 
 router.put("/", (req, res) => {

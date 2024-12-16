@@ -8,7 +8,7 @@
     "forever-stop": "forever stop ./bin/www"
   },
   "dependencies": {
-    "axios": "^0.24.0",
+    "axios": "1.7.4",
     "cookie-parser": "~1.4.4",
     "cors": "^2.8.5",
     "dotenv": "^10.0.0",

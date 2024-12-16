@@ -2,8 +2,6 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const mysql = require("mysql");
 const db = require("../../db");
-const {findConversation, publishMessage} = require("../common/SlackMessages/slack");
-const {SlackMessages} = require("../common/SlackMessages/Messages");
 const logger = require("../common/Logging/logger");
 
 router.put("/", (req, res) => {
