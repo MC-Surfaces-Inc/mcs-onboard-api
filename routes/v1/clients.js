@@ -111,9 +111,10 @@ router.get("/:id/profile-data", (req, res) => {
     select lisak "Lisa Kallus", edythc "Edyth Cruz", kimn "Kim Conover" from approvals where clientId=?;
     select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
     select current from statuses where clientId=?;
+    select * from folder where clientId=?;
     `
   ;
-  let params = Array(6).fill(req.params.id);
+  let params = Array(7).fill(req.params.id);
 
   db(req.baseUrl).query(sql, params, (err, data) => {
     if (err) {
@@ -133,7 +134,8 @@ router.get("/:id/profile-data", (req, res) => {
       contacts: data[2],
       approvals: data[3][0],
       programs: data[4][0],
-      status: data[5][0]
+      status: data[5][0],
+      folder: data[6],
     });
   });
 });

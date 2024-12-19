@@ -7,13 +7,14 @@ const clientsRouter = require("./clients");
 const detailsRouter = require("./details");
 const programsRouter = require("./programs");
 const pricingRouter = require("./pricing");
+const sharepointRouter = require("./sharepoint");
 
 router.use("/users", usersRouter);
 router.use("/clients", clientsRouter);
 router.use("/details", detailsRouter);
 router.use("/programs", programsRouter);
 router.use("/pricing", pricingRouter);
-// router.use("/sage", sageRouter);
+router.use("/sharepoint", sharepointRouter)
 
 /* GET home page. */
 router.get("/", async function(req, res, next) {
