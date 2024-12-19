@@ -135,7 +135,7 @@ router.get("/:id/profile-data", (req, res) => {
       approvals: data[3][0],
       programs: data[4][0],
       status: data[5][0],
-      folder: data[6],
+      folder: data[6][0],
     });
   });
 });
