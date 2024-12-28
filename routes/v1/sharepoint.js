@@ -6,7 +6,6 @@ const FormData = require("form-data");
 
 const db = require("../../db");
 const logger = require("../common/Logging/logger");
-const fs = require("node:fs");
 
 const upload = multer();
 
