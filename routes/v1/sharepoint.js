@@ -13,13 +13,14 @@ router.get("/folder", async (req, res) => {
 });
 
 router.post("/folder", async (req, res) => {
-  await axios.post(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/folder?parentId=${req.query.parentId}&folder=${req.query.folder}`)
-    .then((response) => {
-      res.status(200).json({ message: "Successfully created folder" });
-    })
-    .catch((error) => {
-      console.log(error);
-    });
+  try {
+    await axios.post(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/folder?parentId=${req.query.parentId}&folder=${req.query.folder}`)
+      .then((response) => {
+        res.status(200).json({ message: "Successfully created folder" });
+      })
+  } catch (error) {
+    console.log(error);
+  }
 });
 
 module.exports = router;
