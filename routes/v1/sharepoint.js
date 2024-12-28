@@ -8,7 +8,7 @@ const logger = require("../common/Logging/logger");
 router.get("/folder", async (req, res) => {
   await axios.get(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/folder?id=${req.query.id}`)
     .then((response) => {
-      res.status(200).json({ data: response.data.value });
+      res.status(200).json(response.data.value);
     });
 });
 
