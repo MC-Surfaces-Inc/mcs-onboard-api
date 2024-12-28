@@ -18,6 +18,9 @@ router.post("/folder", async (req, res) => {
       .then((response) => {
         res.status(200).json({ message: "Successfully created folder" });
       })
+      .catch((error) => {
+        console.log(error);
+      })
   } catch (error) {
     console.log(error);
   }
