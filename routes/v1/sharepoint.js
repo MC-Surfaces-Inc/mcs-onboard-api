@@ -6,26 +6,16 @@ const db = require("../../db");
 const logger = require("../common/Logging/logger");
 
 router.get("/folder", async (req, res) => {
-  // let sql = "update approvals set ? where clientId=?;";
-
-  // db(req.baseUrl).query(sql, [ req.query.id ], (err, data) => {
-  //   if (err) {
-  //     logger.log({
-  //       level: "error",
-  //       message: err,
-  //       protocol: req.protocol,
-  //       route: req.originalUrl,
-  //       timestamp: new Date()
-  //     });
-  //     throw err;
-  //   };
-  //
-  //   res.json({ message: "Approval Submitted." });
-  // });
-
   await axios.get(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/folder?id=${req.query.id}`)
     .then((response) => {
       res.status(200).json({ data: response.data.value });
+    });
+});
+
+router.post("/folder", async (req, res) => {
+  await axios.post(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/folder?parentId=${req.query.id}&folder=${req.query.folder}`)
+    .then((response) => {
+      res.status(200).json({ message: "Successfully created folder" });
     });
 });
 
