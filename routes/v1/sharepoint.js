@@ -31,14 +31,15 @@ router.post("/folder", async (req, res) => {
 });
 
 router.post("/file", upload.single('file'), async (req, res) => {
+  const fileData = Buffer.from(req.file.buffer);
   const formData = new FormData();
-  const fileBuffer = Buffer.from(req.file.buffer);
-
-  formData.append("file", fileBuffer, req.file.originalname);
+  formData.append("file", req.file.buffer, req.file.originalname);
 
   try {
-    await axios.post(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/file?parentId=${req.query.parentId}`, formData, {
-      headers: formData.getHeaders()
+    await axios.post(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/file?parentId=${req.query.parentId}`, formData.getBuffer(), {
+      headers: {
+        ...formData.getHeaders()
+      }
     })
       .then((response) => {
         res.status(200).json({ message: "Successfully uploaded file" });
