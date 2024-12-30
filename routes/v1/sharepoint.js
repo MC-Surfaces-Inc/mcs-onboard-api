@@ -11,15 +11,14 @@ const upload = multer();
 
 router.post("/folder/internal", async (req, res) => {
   let sql = "insert into folder set ?;";
-  let sql2 = "update clients set folderId=?;";
-  let insertId = null;
+  let sql2 = "update clients set folderId=? where clientId=?;";
   let body = {
     ...req.body,
     createdAt: new Date().toISOString(),
     updatedAt: new Date().toISOString(),
   }
 
-  await db(req.baseUrl).query(sql, body, (err, data) => {
+  await db(req.baseUrl).query(sql, body, (err, results) => {
     if (err) {
       logger.log({
         level: "error",
@@ -31,24 +30,22 @@ router.post("/folder/internal", async (req, res) => {
       throw err;
     }
 
-    insertId = data.insertId;
-  });
+    console.log(results.insertId)
 
-  db(req.baseUrl).query(sql2, [insertId], (err, data) => {
-    if (err) {
-      logger.log({
-        level: "error",
-        message: err,
-        protocol: req.protocol,
-        route: req.originalUrl,
-        timestamp: new Date()
-      });
-      throw err;
-    }
+    db(req.baseUrl).query(sql2, [results.insertId, body.clientId], (err, data) => {
+      if (err) {
+        logger.log({
+          level: "error",
+          message: err,
+          protocol: req.protocol,
+          route: req.originalUrl,
+          timestamp: new Date()
+        });
+        throw err;
+      }
 
-    insertId = data.insertId;
-
-    res.status(200).send({ message: "Successfully saved" });
+      res.status(200).send({ message: "Successfully saved" });
+    });
   });
 })
 
