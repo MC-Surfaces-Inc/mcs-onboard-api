@@ -20,7 +20,7 @@ router.post("/folder", async (req, res) => {
   try {
     await axios.post(`${process.env.MCS_MICROSOFT_API_URL}/sharepoint/folder?parentId=${req.query.parentId}&folder=${req.query.folder}`)
       .then((response) => {
-        res.status(200).json({ message: "Successfully created folder" });
+        res.status(200).json(response.data);
       })
       .catch((error) => {
         console.log(error);
@@ -31,7 +31,6 @@ router.post("/folder", async (req, res) => {
 });
 
 router.post("/file", upload.single('file'), async (req, res) => {
-  const fileData = Buffer.from(req.file.buffer);
   const formData = new FormData();
   formData.append("file", req.file.buffer, req.file.originalname);
 
@@ -42,7 +41,7 @@ router.post("/file", upload.single('file'), async (req, res) => {
       }
     })
       .then((response) => {
-        res.status(200).json({ message: "Successfully uploaded file" });
+        res.status(200).json(response.data);
       })
       .catch((error) => {
         console.log(error);
