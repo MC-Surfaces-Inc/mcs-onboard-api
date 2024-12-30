@@ -11,7 +11,7 @@ const upload = multer();
 
 router.post("/folder/internal", async (req, res) => {
   let sql = "insert into folder set ?;";
-  let sql2 = "update clients set folderId=? where clientId=?;";
+  let sql2 = "update clients set folderId=? where id=?;";
   let body = {
     ...req.body,
     createdAt: new Date().toISOString(),
@@ -29,8 +29,6 @@ router.post("/folder/internal", async (req, res) => {
       });
       throw err;
     }
-
-    console.log(results.insertId)
 
     db(req.baseUrl).query(sql2, [results.insertId, body.clientId], (err, data) => {
       if (err) {
