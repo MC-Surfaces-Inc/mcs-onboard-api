@@ -20,9 +20,10 @@ router.get("/:id/profile-data", (req, res) => {
     select current from statuses where clientId=?;
     select cabinets, carpet, countertops, tile, wood, vinyl from programs where clientId=?;
     select decision, firstName, lastName from client_approvals join users on userId=users.id where clientId=?;
+    select * from folder where id in (select folderId from clients where clientId=?);
     `
   ;
-  let params = Array(8).fill(req.params.id);
+  let params = Array(9).fill(req.params.id);
 
   db(req.baseUrl).query(sql, params, (err, data) => {
     if (err) {
