@@ -38,7 +38,8 @@ router.get("/:id/profile-data", (req, res) => {
       programs: data[4][0],
       status: data[5][0],
       selections: data[6][0],
-      clientApprovals: data[7]
+      clientApprovals: data[7],
+      folder: data[8][0]
     });
   });
 });
