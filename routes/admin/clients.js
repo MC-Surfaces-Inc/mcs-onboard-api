@@ -19,7 +19,7 @@ router.get("/:id/profile-data", (req, res) => {
     select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
     select current from statuses where clientId=?;
     select cabinets, carpet, countertops, tile, wood, vinyl from programs where clientId=?;
-    select decision, firstName, lastName from approvals join users on userId=users.id where clientId=?;
+    select * from approvals where clientId=?;
     select * from folder where id in (select folderId from clients where clientId=?);
     `
   ;
