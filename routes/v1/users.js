@@ -16,7 +16,7 @@ router.post("/", (req, res) => {
 router.get("/email", (req, res) => {
   let sql = "select * from users where email=?;";
 
-  db(req.baseUrl).query(sql, [ req.query.value ], (err, data) => {
+  db(req.baseUrl).query(sql, [ req.query.attribute ], (err, data) => {
     if (err) console.log(err);
 
     res.json({ user: data[0] });
