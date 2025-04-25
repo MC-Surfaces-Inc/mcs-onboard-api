@@ -8,13 +8,15 @@ const detailsRouter = require("./details");
 const programsRouter = require("./programs");
 const pricingRouter = require("./pricing");
 const sharepointRouter = require("./sharepoint");
+const airtableRouter = require("./airtable");
 
 router.use("/users", usersRouter);
 router.use("/clients", clientsRouter);
 router.use("/details", detailsRouter);
 router.use("/programs", programsRouter);
 router.use("/pricing", pricingRouter);
-router.use("/sharepoint", sharepointRouter)
+router.use("/sharepoint", sharepointRouter);
+router.use("/airtable", airtableRouter);
 
 /* GET home page. */
 router.get("/", async function(req, res, next) {
