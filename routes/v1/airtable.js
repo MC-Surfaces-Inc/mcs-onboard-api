@@ -2,6 +2,16 @@ const express = require("express");
 const router = express.Router({ mergeParams: true });
 const axios = require("axios");
 
+router.get("/clients/:id", async (req, res) => {
+  let clients = await axios.get(`${process.env.MCS_AIRTABLE_API}/Clients`, {
+    headers: {
+      "Authorization": `Bearer ${process.env.MCS_AIRTABLE_API_TOKEN}`,
+    }
+  });
+
+  res.status(200).send({ clients: clients.data.records });
+});
+
 router.get("/clients", async (req, res) => {
   let clients = await axios.get(`${process.env.MCS_AIRTABLE_API}/Clients`, {
     headers: {
