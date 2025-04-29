@@ -28,7 +28,7 @@ router.post("/clients", async (req, res) => {
       "Name": req.body.name,
       "Territory": req.body.territory,
       "Type": "Production",
-      "Status": "Active",
+      "Status": "Potential",
       "SharePoint ID": req.body.sharepointId,
       "SharePoint URL": req.body.sharepointUrl,
       "Jobs SharePoint ID": req.body.jobsSharePointId,
