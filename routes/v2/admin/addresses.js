@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
-const db = require("../../db");
+const db = require("../../../db");
 
 router.get("/:id", (req, res) => {
   let sql = "select *, concat_ws(' ', address1, address2) as address from addresses where clientId=?;";

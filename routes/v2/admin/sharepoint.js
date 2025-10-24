@@ -4,7 +4,7 @@ const axios = require("axios");
 const multer = require("multer");
 const FormData = require("form-data");
 
-const db = require("../../db");
+const db = require("../../../db");
 const logger = require("../common/Logging/logger");
 
 const upload = multer();

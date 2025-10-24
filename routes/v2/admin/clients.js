@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
-const db = require("../../db");
+const db = require("../../../db");
 
 router.use("/addresses", require("./addresses"));
 router.use("/contacts", require("./contacts"));

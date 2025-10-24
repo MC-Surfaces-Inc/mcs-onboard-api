@@ -1,7 +1,7 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 
-const db = require("../../db");
+const db = require("../../../db");
 
 router.get("/selections/:id", (req, res) => {
   let sql = "select cabinets, carpet, countertops, tile, vinyl, wood from programs where clientId=?;";
