@@ -7,8 +7,13 @@ const express = require("express");
 
 const path = require("path");
 
-const indexRouter = require("./routes/v1/index");
-const adminRouter = require("./routes/admin/index");
+// V1 Routers
+const indexRouterV1 = require("./routes/v1/index");
+const adminRouterV1 = require("./routes/admin/index");
+
+// V2 Routers
+const indexRouterV2 = require("./routes/v2/index");
+const adminRouterV2 = require("./routes/admin/index");
 
 const app = express();
 
@@ -19,10 +24,16 @@ app.use(cookieParser());
 app.use(express.static(path.join(__dirname, "public")));
 app.use(cors());
 
-app.use("/dev/v1", indexRouter);
-app.use("/dev/admin", adminRouter);
+// V1 dev and production routes
+app.use("/dev/v1", indexRouterV1);
+app.use("/dev/admin", adminRouterV1);
+app.use("/v1", indexRouterV1);
+app.use("/admin", adminRouterV1);
 
-app.use("/v1", indexRouter);
-app.use("/admin", adminRouter);
+// V1 dev and production routes
+app.use("/dev/v2", indexRouterV2);
+app.use("/dev/v2/admin", adminRouterV2);
+app.use("/v2", indexRouterV2);
+app.use("/v2/admin", adminRouterV2);
 
 module.exports = app;
