@@ -13,7 +13,7 @@ const adminRouterV1 = require("./routes/admin/index");
 
 // V2 Routers
 const indexRouterV2 = require("./routes/v2/index");
-const adminRouterV2 = require("./routes/admin/index");
+const adminRouterV2 = require("./routes/v2/admin/index");
 
 const app = express();
 
