@@ -14,7 +14,7 @@ router.get("/:id/profile-data", (req, res) => {
     select clients.id as clientId, name, shortName, territory, concat_ws(" ", firstName, lastName) as salesRep, email as salesRepEmail, phone as salesRepPhone, sageEmployeeNumber, sageUserId from clients join users u on clients.userId=u.id where clients.id=?;
     select type, CONCAT_WS(" ", address1, address2) address, city, state, zip from addresses where clientId=?;
     select name, title, phone, email from contacts where clientId=?;
-    select versionId, choice, firstName, lastName, email, phone, department, division, subdivision, territory from decision d join users u on d.userId = u.id join mcs_onboard_prod.department d on u.department = d.id where d.clientId=?;
+    select versionId, choice, firstName, lastName, email, phone, department, division, subdivision, territory from decision d join users u on d.userId = u.id join department d on u.department = d.id where d.clientId=?;
     select cabinets "Cabinets", carpet "Carpet", countertops "Countertops", tile "Tile", wood "Wood", vinyl "Vinyl" from programs where clientId=?;
     select current from statuses where clientId=?;
     select cabinets, carpet, countertops, tile, wood, vinyl from programs where clientId=?;
